@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProduitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,20 +19,41 @@ class Produit
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\Column]
-    private ?float $prix = null;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $description = null;
 
     #[ORM\Column(length: 255)]
     private ?string $reference = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $description = null;
+    #[ORM\Column]
+    private ?bool $actif = null;
+
+    #[ORM\Column]
+    private ?float $prixHT = null;
 
     #[ORM\Column(length: 255)]
     private ?string $illustration = null;
 
-    #[ORM\Column]
-    private ?int $stock = null;
+    /**
+     * @var Collection<int, Categorie>
+     */
+    #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'produits')]
+    private Collection $categorie;
+
+    #[ORM\ManyToOne(inversedBy: 'produits')]
+    private ?Marque $marque = null;
+
+    /**
+     * @var Collection<int, ProduitsAssocies>
+     */
+    #[ORM\ManyToMany(targetEntity: ProduitsAssocies::class, mappedBy: 'produit')]
+    private Collection $produitsAssocies;
+
+    public function __construct()
+    {
+        $this->categorie = new ArrayCollection();
+        $this->produitsAssocies = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -49,14 +72,14 @@ class Produit
         return $this;
     }
 
-    public function getPrix(): ?float
+    public function getDescription(): ?string
     {
-        return $this->prix;
+        return $this->description;
     }
 
-    public function setPrix(float $prix): static
+    public function setDescription(string $description): static
     {
-        $this->prix = $prix;
+        $this->description = $description;
 
         return $this;
     }
@@ -73,14 +96,26 @@ class Produit
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function isActif(): ?bool
     {
-        return $this->description;
+        return $this->actif;
     }
 
-    public function setDescription(?string $description): static
+    public function setActif(bool $actif): static
     {
-        $this->description = $description;
+        $this->actif = $actif;
+
+        return $this;
+    }
+
+    public function getPrixHT(): ?float
+    {
+        return $this->prixHT;
+    }
+
+    public function setPrixHT(float $prixHT): static
+    {
+        $this->prixHT = $prixHT;
 
         return $this;
     }
@@ -97,14 +132,65 @@ class Produit
         return $this;
     }
 
-    public function getStock(): ?int
+    /**
+     * @return Collection<int, Categorie>
+     */
+    public function getCategorie(): Collection
     {
-        return $this->stock;
+        return $this->categorie;
     }
 
-    public function setStock(int $stock): static
+    public function addCategorie(Categorie $categorie): static
     {
-        $this->stock = $stock;
+        if (!$this->categorie->contains($categorie)) {
+            $this->categorie->add($categorie);
+        }
+
+        return $this;
+    }
+
+    public function removeCategorie(Categorie $categorie): static
+    {
+        $this->categorie->removeElement($categorie);
+
+        return $this;
+    }
+
+    public function getMarque(): ?Marque
+    {
+        return $this->marque;
+    }
+
+    public function setMarque(?Marque $marque): static
+    {
+        $this->marque = $marque;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProduitsAssocies>
+     */
+    public function getProduitsAssocies(): Collection
+    {
+        return $this->produitsAssocies;
+    }
+
+    public function addProduitsAssocy(ProduitsAssocies $produitsAssocy): static
+    {
+        if (!$this->produitsAssocies->contains($produitsAssocy)) {
+            $this->produitsAssocies->add($produitsAssocy);
+            $produitsAssocy->addProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduitsAssocy(ProduitsAssocies $produitsAssocy): static
+    {
+        if ($this->produitsAssocies->removeElement($produitsAssocy)) {
+            $produitsAssocy->removeProduit($this);
+        }
 
         return $this;
     }

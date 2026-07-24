@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\ClientRepository;
+use App\Repository\FournisseurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ClientRepository::class)]
-class Client
+#[ORM\Entity(repositoryClass: FournisseurRepository::class)]
+class Fournisseur
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,41 +19,40 @@ class Client
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $prenom = null;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTime $dateNaissance = null;
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
 
     #[ORM\Column(length: 255)]
     private ?string $adresse = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $complementAdresse = null;
 
     #[ORM\Column(length: 255)]
     private ?string $codePostal = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Ville = null;
+    private ?string $ville = null;
 
     #[ORM\Column(length: 255)]
     private ?string $pays = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
     private ?string $telephone = null;
 
-    #[ORM\Column]
-    private ?bool $newsletter = null;
+    /**
+     * @var Collection<int, Commande>
+     */
+    #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'fournisseur')]
+    private Collection $commandes;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTime $dateCreation = null;
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?CarteFidelite $carteFidelite = null;
+    public function __construct()
+    {
+        $this->commandes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -70,26 +71,14 @@ class Client
         return $this;
     }
 
-    public function getPrenom(): ?string
+    public function getDescription(): ?string
     {
-        return $this->prenom;
+        return $this->description;
     }
 
-    public function setPrenom(string $prenom): static
+    public function setDescription(?string $description): static
     {
-        $this->prenom = $prenom;
-
-        return $this;
-    }
-
-    public function getDateNaissance(): ?\DateTime
-    {
-        return $this->dateNaissance;
-    }
-
-    public function setDateNaissance(?\DateTime $dateNaissance): static
-    {
-        $this->dateNaissance = $dateNaissance;
+        $this->description = $description;
 
         return $this;
     }
@@ -111,7 +100,7 @@ class Client
         return $this->complementAdresse;
     }
 
-    public function setComplementAdresse(string $complementAdresse): static
+    public function setComplementAdresse(?string $complementAdresse): static
     {
         $this->complementAdresse = $complementAdresse;
 
@@ -132,12 +121,12 @@ class Client
 
     public function getVille(): ?string
     {
-        return $this->Ville;
+        return $this->ville;
     }
 
-    public function setVille(string $Ville): static
+    public function setVille(string $ville): static
     {
-        $this->Ville = $Ville;
+        $this->ville = $ville;
 
         return $this;
     }
@@ -159,7 +148,7 @@ class Client
         return $this->email;
     }
 
-    public function setEmail(?string $email): static
+    public function setEmail(string $email): static
     {
         $this->email = $email;
 
@@ -178,38 +167,32 @@ class Client
         return $this;
     }
 
-    public function isNewsletter(): ?bool
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getCommandes(): Collection
     {
-        return $this->newsletter;
+        return $this->commandes;
     }
 
-    public function setNewsletter(bool $newsletter): static
+    public function addCommande(Commande $commande): static
     {
-        $this->newsletter = $newsletter;
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
+            $commande->setFournisseur($this);
+        }
 
         return $this;
     }
 
-    public function getDateCreation(): ?\DateTime
+    public function removeCommande(Commande $commande): static
     {
-        return $this->dateCreation;
-    }
-
-    public function setDateCreation(\DateTime $dateCreation): static
-    {
-        $this->dateCreation = $dateCreation;
-
-        return $this;
-    }
-
-    public function getCarteFidelite(): ?CarteFidelite
-    {
-        return $this->carteFidelite;
-    }
-
-    public function setCarteFidelite(?CarteFidelite $carteFidelite): static
-    {
-        $this->carteFidelite = $carteFidelite;
+        if ($this->commandes->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getFournisseur() === $this) {
+                $commande->setFournisseur(null);
+            }
+        }
 
         return $this;
     }
