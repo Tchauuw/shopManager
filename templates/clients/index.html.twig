@@ -1,0 +1,161 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des clients{% endblock %}
+
+{% block body %}
+
+{% block header %}
+<header class="header">
+    <div class="left">
+        <h1 class="title">Clients</h1>
+        <div class="corps">
+            <p>Gérez et consultez la liste de vos clients.</p>
+        </div>
+    </div>
+    <div class="right">
+        <p class="btn">
+            <img src="" class="icon" alt="Icône"/>
+            Exporter
+        </p>
+        <a href="" class="btn btn--secondary">
+            <img src="" class="icon" alt="Icône"/>
+            Nouveau client
+        </a>
+    </div>
+</header>
+{% endblock %}
+
+{% block filters %}
+<div class="filters">
+    <input type="search" name="client" id="client" class="filter filter--text">
+    <select id="newletter" class="filter filter--select">
+        <option value="">--Veuillez choisir une option--</option>
+        <option value="oui">Oui</option>
+        <option value="non">Non</option>
+    </select>
+    <select id="city" class="filter filter--select">
+        <option value="">--Veuillez choisir une option--</option>
+        <option value="oui">Nantes</option>
+        <option value="non">Strasbourg</option>
+    </select>
+    <p class="btn">
+        <img src="" class="icon" alt="Icône"/>
+        Filtres
+    </p>
+    <div class="wrapper">
+        <p>Autres filtres</p>
+        <p>Autres filtres</p>
+        <p>Autres filtres</p>
+        <p>Autres filtres</p>
+    </div>
+    <p class="link">Réinitialiser</p>
+</div>
+{% endblock %}
+
+{% block statistics %}
+<div class="statistics">
+    <figure class="stat">
+        <img src="" alt="" class="icon">
+        <div class="legend">
+            <p class="name">Total des clients</p>
+            <p class="number">256</p>
+            <p class="percent">+12 ce mois</p>
+        </div>
+    </figure>
+    <figure class="stat">
+        <img src="" alt="" class="icon">
+        <div class="legend">
+            <p class="name">Clients fidèles</p>
+            <p class="number">162</p>
+            <p class="percent">6.25% du total</p>
+        </div>
+    </figure>
+    <figure class="stat">
+        <img src="" alt="" class="icon">
+        <div class="legend">
+            <p class="name">Points émis</p>
+            <p class="number">48750</p>
+            <p class="percent">+1250 ce mois</p>
+        </div>
+    </figure>
+    <figure class="stat">
+        <img src="" alt="" class="icon">
+        <div class="legend">
+            <p class="name">Total des achats</p>
+            <p class="number">85240,80€</p>
+            <p class="percent">+ 8430,50 € ce mois</p>
+        </div>
+    </figure>
+</div>
+{% endblock %}
+
+{% block list %}
+<ul class="clients">
+{% for client in clients %}
+    <li class="client">
+        <p class="tag"></p>
+        <p class="corps corps--name">{{ client.nom }}</p>
+        <p class="corps corps--firstname">{{ client.prenom }}</p>
+        <p class="corps corps--birthdate">{{ client.dateNaissance|date('d / m / Y') }}</p>
+        <p class="corps corps--phone">{{ client.telephone }}</p>
+        <p class="corps corps--email">{{ client.email }}</p>
+        <p class="corps corps--address">{{ client.adresse }}</p>
+        <p class="corps corps--addresscomp">{{ client.complementAdresse }}</p>
+        <p class="corps corps--zipcode">{{ client.codePostal }}</p>
+        <p class="corps corps--city">{{ client.ville }}</p>
+        <p class="corps corps--country">{{ client.pays }}</p>
+        <p class="corps corps--newsletter">{{ client.newsletter }}</p>
+        <p class="corps corps--creationDate">{{ client.dateCreation|date('d / m / Y') }}</p>
+        <div class="loyalty">
+            <p class="name">Id :</p>
+            <p class="corps corps--fidelity">{{ client.carteFidelite.id }}</p>
+            <p class="name">Solde de points :</p>
+            <p class="corps corps--fidelity">{{ client.carteFidelite.soldePoints }}</p>
+            <p class="name">Date de création :</p>
+            <p class="corps corps--fidelity">{{ client.carteFidelite.dateCreation|date('d / m / Y') }}</p>
+        </div>
+    </li>
+{% endfor %} 
+</ul>
+{% endblock %}
+
+{% block pagination %}
+<aside class="pagination">
+    <p class="corps">Affichage 1 à 8 sur 256 clients</p>
+
+    <div class="container">
+        <div class="pages">
+            <a href="" target="" class="item">
+                <img src="" alt="" class="icon">
+            </a>
+            <a href="" target="" class="item">
+                1
+            </a>
+            <a href="" target="" class="item">
+                2
+            </a>
+            <a href="" target="" class="item">
+                3
+            </a>
+            <a href="" target="" class="item">
+                ...
+            </a>
+            <a href="" target="" class="item">
+                32
+            </a>
+            <a href="" target="" class="item">
+                <img src="" alt="" class="icon">
+            </a>
+        </div>
+        <select name="perpage" class="itemsperpage">
+            <option value="10" class="otion">10 par page</option>
+            <option value="25" class="otion">25 par page</option>
+            <option value="50" class="otion">50 par page</option>
+            <option value="100" class="otion">100 par page</option>
+            <option value="250" class="otion">250 par page</option>
+            <option value="500" class="otion">500 par page</option>
+        </select>
+    </div>
+</aside>
+{% endblock %}
+{% endblock %}
