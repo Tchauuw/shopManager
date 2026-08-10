@@ -4,6 +4,51 @@
 
 {% block body %}
 
+{% block nav %}
+        <nav class="menu">
+            <img src="" class="logo" alt="Logo de Shop manager" />
+            <ul class="list">
+                <li class="item">
+                    <a href="" class="link" target="">
+                    <img src="" class="icon" alt="Icône"/>
+                    Tableau de bord</a>
+                </li>
+                <li class="item">
+                    <a href="" class="link" target="">
+                    <img src="" class="icon" alt="Icône"/>
+                    Clients</a>
+                </li>
+                <li class="item">
+                    <a href="" class="link" target="">
+                    <img src="" class="icon" alt="Icône"/>
+                    Commandes</a>
+                </li>
+                <li class="item">
+                    <a href="" class="link" target="">
+                    <img src="" class="icon" alt="Icône"/>
+                    Produits</a>
+                </li>
+                <li class="item">
+                    <a href="" class="link" target="">
+                    <img src="" class="icon" alt="Icône"/>
+                    Fidélité</a>
+                </li>
+                <li class="item">
+                    <a href="" class="link" target="">
+                    <img src="" class="icon" alt="Icône"/>
+                    Paramètres</a>
+                </li>
+            </ul>
+            <div class="bottom">
+                <figure class="user">
+                    <img src="" class="avatar" alt="Avatar de l'utilisateur" />
+                </figure>
+                <a href="/" class="link link--error" target="">Déconnexion</a>
+            </div>
+        </nav>
+{% endblock %}
+
+<main class="clients">
 {% block header %}
 <header class="header">
     <div class="left">
@@ -32,6 +77,13 @@
         <option value="">--Veuillez choisir une option--</option>
         <option value="oui">Oui</option>
         <option value="non">Non</option>
+    </select>
+    <select id="loyalty" class="filter filter--select">
+        <option value="">--Veuillez choisir une option--</option>
+        <option value="Nouveau">Nouveau</option>
+        <option value="À developper">À développer</option>
+        <option value="Client régulier">Client régulier</option>
+        <option value="Client fidèle">Client fidèle</option>
     </select>
     <select id="city" class="filter filter--select">
         <option value="">--Veuillez choisir une option--</option>
@@ -90,33 +142,48 @@
 {% endblock %}
 
 {% block list %}
-<ul class="clients">
+<table class="columns">
+    <tr class="names">
+        <th class="name">Client</th>
+        <th class="name">Carte fidélité</th>
+        <th class="name">Solde de points</th>
+        <th class="name">Dernère commande</th>
+        <th class="name">Total des achats</th>
+        <th class="name">Newsletter</th>
+        <th class="name">Statut</th>
+        <th class="name">Actions</th>
+        <th class="name"></th>
+    </tr>
 {% for client in clients %}
-    <li class="client">
-        <p class="tag"></p>
-        <p class="corps corps--name">{{ client.nom }}</p>
-        <p class="corps corps--firstname">{{ client.prenom }}</p>
-        <p class="corps corps--birthdate">{{ client.dateNaissance|date('d / m / Y') }}</p>
-        <p class="corps corps--phone">{{ client.telephone }}</p>
-        <p class="corps corps--email">{{ client.email }}</p>
-        <p class="corps corps--address">{{ client.adresse }}</p>
-        <p class="corps corps--addresscomp">{{ client.complementAdresse }}</p>
-        <p class="corps corps--zipcode">{{ client.codePostal }}</p>
-        <p class="corps corps--city">{{ client.ville }}</p>
-        <p class="corps corps--country">{{ client.pays }}</p>
-        <p class="corps corps--newsletter">{{ client.newsletter }}</p>
-        <p class="corps corps--creationDate">{{ client.dateCreation|date('d / m / Y') }}</p>
-        <div class="loyalty">
-            <p class="name">Id :</p>
-            <p class="corps corps--fidelity">{{ client.carteFidelite.id }}</p>
-            <p class="name">Solde de points :</p>
-            <p class="corps corps--fidelity">{{ client.carteFidelite.soldePoints }}</p>
-            <p class="name">Date de création :</p>
-            <p class="corps corps--fidelity">{{ client.carteFidelite.dateCreation|date('d / m / Y') }}</p>
-        </div>
-    </li>
+    <tr class="line">
+        <th class="corps">
+            <img src="" alt="" class="icon">
+            <div class="part">
+                <p class="corps">{{ client.prenom }} {{ client.nom }}</p>
+                <p class="corps corps--second">{{ client.email }}</p>
+            </div>
+        </th>
+        <th class="corps">
+            <p class="corps">#{{ client.carteFidelite.id }}</p>
+        </th>
+        <th class="corps">
+            <p class="corps">{{ client.carteFidelite.soldePoints }}</p>
+        </th>
+        <th class="corps">
+            <p class="corps">01/01/2000</p>
+        </th>
+        <th class="corps">2549,87 €</th>
+        <th class="corps">-</th>
+        <th class="corps">-</th>
+        <th class="corps">
+            <img src="" alt="" class="icon">
+        </th>
+        <th class="corps">
+            <img src="" alt="" class="icon">
+        </th>
+    </tr>
 {% endfor %} 
-</ul>
+</table>
 {% endblock %}
 
 {% block pagination %}
@@ -158,4 +225,5 @@
     </div>
 </aside>
 {% endblock %}
+</main>
 {% endblock %}

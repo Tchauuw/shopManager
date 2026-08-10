@@ -1,0 +1,50 @@
+/* -- -- -- -- -- GLOBAL -- -- -- -- -- */
+:root {
+    /* COLORS */
+    --primaryLight: #8B5CF6;
+    --primary: #6D28D9;
+    --primaryDark: #F3E8FF;
+
+    --secondaryLight: #0F172A;
+    --secondary: #0EA5E9;
+    --secondaryDark: #E0F2FE;
+    
+    --successLight: #DCFCE7;
+    --success: #16A34A;
+
+    --warningLight: #FEF3C7;
+    --warning: #F59E0B;
+
+    --errorLight: #FEE2E2;
+    --error: #EF4444;
+
+    --greyLight: #E2E8F0;
+    --grey: #64748B;
+    --greyDark: #475569;
+
+    --white: #FFFFFF;
+    --whiteDark: #F8FAFC;
+    
+    /* FONTS */
+    /* MAIN */
+    --ffMLi: "InterLight", sans-serif;
+    --ffMRe: "InterRegular", sans-serif;
+    --ffMMe: "InterMedium", sans-serif;
+    --ffMBo: "InterBold", sans-serif;
+}
+
+/* -- -- -- -- -- RECURRENTS -- -- -- -- -- */
+.title {
+    font-family: var(--ffMBo);
+    font-size: 24px;
+}
+
+/* -- -- -- -- -- RECURSIVE COMPONENT -- -- -- -- -- */
+body:has(> .clients){
+    display: grid;
+    grid-template-columns: .2fr .8fr;
+}
+
+body > .clients {
+    margin-left: 20vw;
+}
