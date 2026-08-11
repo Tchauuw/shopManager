@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\ClientRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ClientRepository::class)]
@@ -52,6 +54,22 @@ class Client
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?CarteFidelite $carteFidelite = null;
+
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Vente::class)]
+    private Collection $ventes;
+
+    /**
+     * @return Collection<int, Vente>
+     */
+    public function getVentes(): Collection
+    {
+        return $this->ventes;
+    }
+
+    public function __construct()
+    {
+        $this->ventes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -213,4 +231,37 @@ class Client
 
         return $this;
     }
+
+    public function nouveauOuNon(): int 
+    {
+        if(!$this->dateCreation) {
+            return 0;
+        }
+
+        return $this->dateCreation->diff(new \DateTimeImmutable())->days;
+    }
+
+    public function getNombreVentes(): int
+    {
+        return $this->ventes->count();
+    }
+
+    public function getStatut(): string
+    {
+    $nombreVentes = $this->getNombreVentes();
+
+    if ($nombreVentes > 3) {
+        return 'fidele';
+    }
+
+    if ($nombreVentes > 2) {
+        return 'regulier';
+    }
+
+    if ($this->NouveauOuNon() < 31) {
+        return 'nouveau';
+    }
+
+    return 'a_developper';
+}
 }

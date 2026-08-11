@@ -37,6 +37,9 @@ class Vente
     #[ORM\ManyToMany(targetEntity: ModePaiement::class, mappedBy: 'vente')]
     private Collection $modePaiements;
 
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
+    private ?Client $client = null;
+
     public function __construct()
     {
         $this->modePaiements = new ArrayCollection();
@@ -130,6 +133,18 @@ class Vente
         if ($this->modePaiements->removeElement($modePaiement)) {
             $modePaiement->removeVente($this);
         }
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): static
+    {
+        $this->client = $client;
 
         return $this;
     }

@@ -173,8 +173,24 @@
             <p class="corps">01/01/2000</p>
         </th>
         <th class="corps">2549,87 €</th>
-        <th class="corps">-</th>
-        <th class="corps">-</th>
+        <th class="corps">
+        {% if client.newsletter == 1 %}
+            <p class="tag tag--success">Oui</p>
+        {% else %}
+            <p class="tag tag--error">Non</p>
+        {% endif %}
+        </th>
+        <th class="corps">
+        {% if client.statut == 'fidele' %}
+            <p class="tag tag--primary">Client fidèle</p>
+        {% elseif client.statut == 'regulier' %}
+            <p class="tag tag--secondary">Client régulier</p>
+        {% elseif client.statut == 'nouveau' %}
+            <p class="tag tag--secondary">Nouveau</p>
+        {% else %}
+            <p class="tag tag--warning">À développer</p>
+        {% endif %}
+        </th>
         <th class="corps">
             <img src="" alt="" class="icon">
         </th>
@@ -187,7 +203,7 @@
 {% endblock %}
 
 {% block pagination %}
-<aside class="pagination">
+{# <aside class="pagination">
     <p class="corps">Affichage 1 à 8 sur 256 clients</p>
 
     <div class="container">
@@ -223,7 +239,9 @@
             <option value="500" class="otion">500 par page</option>
         </select>
     </div>
-</aside>
+</aside> #}
+
+{{ knp_pagination_render(clients) }}
 {% endblock %}
 </main>
 {% endblock %}
