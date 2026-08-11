@@ -16,28 +16,14 @@ class MouvementFideliteRepository extends ServiceEntityRepository
         parent::__construct($registry, MouvementFidelite::class);
     }
 
-    //    /**
-    //     * @return MouvementFidelite[] Returns an array of MouvementFidelite objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('m.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?MouvementFidelite
-    //    {
-    //        return $this->createQueryBuilder('m')
-    //            ->andWhere('m.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function moveThisMonth(): int
+    {
+        $date = new \DateTimeImmutable('-30 days');
+        return $this->createQueryBuilder('mf')
+            ->select('COALESCE(SUM(mf.points), 0)')
+            ->where('mf.date >= :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

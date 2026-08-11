@@ -16,21 +16,40 @@ class ClientRepository extends ServiceEntityRepository
         parent::__construct($registry, Client::class);
     }
 
-    public function isLoyal(): array
+    public function findLoyalClients(): array
     {
-    $date = new \DateTimeImmutable('-30 days');
-    return $this->createQueryBuilder('c')
-        ->leftJoin(
-            'c.ventes',
-            'v',
-            'WITH',
-            'v.date >= :date'
-        )
-        ->setParameter('date', $date)
-        ->addSelect('COUNT(v.id) AS nombreVentes')
-        ->having('COUNT(v.id) >= 3')
-        ->groupBy('c.id')
-        ->getQuery()
-        ->getResult();
+        $date = new \DateTimeImmutable('-30 days');
+
+        return $this->createQueryBuilder('c')
+            ->leftJoin(
+                'c.ventes',
+                'v',
+                'WITH',
+                'v.date >= :date'
+            )
+            ->setParameter('date', $date)
+            ->groupBy('c.id')
+            ->having('COUNT(v.id) > 0')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function clientsCount(): int
+    {
+        return $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function newClients(): int
+    {
+        $date = new \DateTimeImmutable('-30 days');
+        return (int) $this->createQueryBuilder('c')
+            ->select('COUNT(c.id)')
+            ->where('c.dateCreation >= :date')
+            ->setParameter('date', $date)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

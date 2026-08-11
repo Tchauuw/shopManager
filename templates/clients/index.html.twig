@@ -110,24 +110,24 @@
         <img src="" alt="" class="icon">
         <div class="legend">
             <p class="name">Total des clients</p>
-            <p class="number">256</p>
-            <p class="percent">+12 ce mois</p>
+            <p class="number">{{ totalClients }}</p>
+            <p class="percent">+{{ newClients }} ce mois</p>
         </div>
     </figure>
     <figure class="stat">
         <img src="" alt="" class="icon">
         <div class="legend">
             <p class="name">Clients fidèles</p>
-            <p class="number">162</p>
-            <p class="percent">6.25% du total</p>
+            <p class="number">{{ loyalClients }}</p>
+            <p class="percent">{{ percentClient }} % du total</p>
         </div>
     </figure>
     <figure class="stat">
         <img src="" alt="" class="icon">
         <div class="legend">
             <p class="name">Points émis</p>
-            <p class="number">48750</p>
-            <p class="percent">+1250 ce mois</p>
+            <p class="number">{{ loyalty }}</p>
+            <p class="percent">+ {{ thisMonth }} ce mois</p>
         </div>
     </figure>
     <figure class="stat">
