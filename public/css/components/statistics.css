@@ -1,0 +1,15 @@
+.statistics {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    justify-content: flex-start;
+}
+
+.stat {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--grey);
+    padding: 8px;
+}

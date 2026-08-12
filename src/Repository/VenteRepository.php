@@ -16,28 +16,23 @@ class VenteRepository extends ServiceEntityRepository
         parent::__construct($registry, Vente::class);
     }
 
-    //    /**
-    //     * @return Vente[] Returns an array of Vente objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('v')
-    //            ->andWhere('v.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('v.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function totalSales(): float
+    {
+        return $this->createQueryBuilder('v')
+            ->select('SUM(v.montantTotal)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
-    //    public function findOneBySomeField($value): ?Vente
-    //    {
-    //        return $this->createQueryBuilder('v')
-    //            ->andWhere('v.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function salesThisMonth(): float
+    {
+        $date = new \DateTimeImmutable('-30 days');
+
+        return $this->createQueryBuilder('v')
+            ->setParameter('date', $date)
+            ->select('SUM(v.montantTotal)')
+            ->where('v.date > :date')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

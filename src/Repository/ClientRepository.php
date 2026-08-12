@@ -16,6 +16,30 @@ class ClientRepository extends ServiceEntityRepository
         parent::__construct($registry, Client::class);
     }
 
+    // Filter
+    public function findByFilters(?string $search = null): array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->orderBy('c.id', 'DESC');
+
+        if($search) {
+            $qb
+                ->andWhere('c.nom LIKE :search')
+                ->setParameter('search', '%' . $search . '%');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+
+    // Access datas 
+    public function findAllOrderedById()
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.id', 'DESC')
+            ->getQuery();
+    }
+
     public function findLoyalClients(): array
     {
         $date = new \DateTimeImmutable('-30 days');

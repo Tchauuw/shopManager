@@ -8,6 +8,7 @@ use App\Entity\Vente;
 use App\Repository\CarteFideliteRepository;
 use App\Repository\ClientRepository;
 use App\Repository\MouvementFideliteRepository;
+use App\Repository\VenteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,14 +24,19 @@ final class ClientController extends AbstractController
         PaginatorInterface $paginator,
         EntityManagerInterface $entityManager,
         ClientRepository $clientR,
-        CarteFideliteRepository $carteFidelite,
-        MouvementFideliteRepository $mouvementFidelite): Response
+        CarteFideliteRepository $carteFideliteR,
+        MouvementFideliteRepository $mouvementFideliteR,
+        VenteRepository $venteR): Response
     {
-        $queryClient = $entityManager
-            ->getRepository(Client::class)
-            ->createQueryBuilder('a')
-            ->orderBy('a.id', 'DESC')
-            ->getQuery();
+        $search = $request->query->get('search');
+
+        $queryClient = $clientR->findByFilters($search);
+
+        $clients = $paginator->paginate(
+            $queryClient,
+            $request->query->getInt('page', 1),
+            5
+        );    
 
         $queryVente = $entityManager
             ->getRepository(Vente::class)
@@ -38,11 +44,7 @@ final class ClientController extends AbstractController
             ->orderBy('b.id', 'DESC')
             ->getQuery();
 
-        $clients = $paginator->paginate(
-            $queryClient,
-            $request->query->getInt('page', 1),
-            5
-        );
+        $queryClient = $clientR->findAllOrderedById();
 
         /* Clients */
         $totalClients = $clientR->clientsCount();
@@ -53,12 +55,15 @@ final class ClientController extends AbstractController
 
         /* Ventes */
         $ventes = $queryVente->getResult();
+        $totalSales = $venteR->totalSales();
+        $salesThisMonth = $venteR->salesThisMonth();
+
 
         /* Points fidélités */
-        $loyalty = $carteFidelite->loyaltyPoints();
+        $loyalty = $carteFideliteR->loyaltyPoints();
 
         /* Mouvements fidélités */
-        $thisMonth = $mouvementFidelite->moveThisMonth();
+        $thisMonth = $mouvementFideliteR->moveThisMonth();
 
         return $this->render('clients/index.html.twig', [
             'controller_name' => 'ClientController',
@@ -70,6 +75,8 @@ final class ClientController extends AbstractController
             'percentClient' => $percentClient,
             'loyalty' => $loyalty,
             'thisMonth' => $thisMonth,
+            'totalSales' => $totalSales,
+            'salesThisMonth' => $salesThisMonth,
         ]);
     }
 }

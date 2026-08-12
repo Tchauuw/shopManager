@@ -72,7 +72,10 @@
 
 {% block filters %}
 <div class="filters">
-    <input type="search" name="client" id="client" class="filter filter--text">
+    <form method="get">
+        <input type="search" name="client" id="client" value="{{ app.request.query.get('search') }}" placeholder="Rechercher" class="filter filter--text">
+        <button type="submit">Rechercher</button>
+    </form>
     <select id="newletter" class="filter filter--select">
         <option value="">--Veuillez choisir une option--</option>
         <option value="oui">Oui</option>
@@ -134,8 +137,8 @@
         <img src="" alt="" class="icon">
         <div class="legend">
             <p class="name">Total des achats</p>
-            <p class="number">85240,80€</p>
-            <p class="percent">+ 8430,50 € ce mois</p>
+            <p class="number">{{ totalSales }} €</p>
+            <p class="percent">+ {{ salesThisMonth }} € ce mois</p>
         </div>
     </figure>
 </div>
