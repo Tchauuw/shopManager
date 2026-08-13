@@ -59,11 +59,11 @@
     </div>
     <div class="right">
         <p class="btn">
-            <img src="" class="icon" alt="Icône"/>
+            <img src="{{ asset('img/icons/export.svg') }}" class="icon" alt="Icône d'export"/>
             Exporter
         </p>
         <a href="" class="btn btn--secondary">
-            <img src="" class="icon" alt="Icône"/>
+            <img src="{{ asset('img/icons/addUser.svg') }}" class="icon" alt="Icône d'ajout d'un utilisateur"/>
             Nouveau client
         </a>
     </div>
@@ -73,44 +73,53 @@
 {% block filters %}
 <div class="filters">
     <form method="get">
-        <input type="search" name="client" id="client" value="{{ app.request.query.get('search') }}" placeholder="Rechercher" class="filter filter--text">
-        <button type="submit">Rechercher</button>
+
+        <input
+            type="search"
+            name="search"
+            id="client"
+            value="{{ app.request.query.get('search') }}"
+            placeholder="Rechercher"
+            class="filter filter--text"
+        >
+
+        <select name="newsletter" id="newsletter" class="filter filter--select">
+            <option value="">Newsletter</option>
+            <option value="oui" {{ app.request.query.get('newsletter') == 'oui' ? 'selected' : '' }}>
+                Oui
+            </option>
+            <option value="non" {{ app.request.query.get('newsletter') == 'non' ? 'selected' : '' }}>
+                Non
+            </option>
+        </select>
+
+        <select name="city" id="city" class="filter filter--select">
+            <option value="">Ville</option>
+            {% for city in findAllCities %}
+                <option value="{{ city.ville }}" {{ app.request.query.get('city') == " . {{ city.ville }} . " ? 'selected' : '' }}>{{ city.ville }}</option>
+            {% endfor %}
+            {# <option value="Strasbourg" {{ app.request.query.get('city') == 'Strasbourg' ? 'selected' : '' }}>
+                Strasbourg
+            </option> #}
+        </select>
+
+        <button type="submit">
+            Rechercher
+        </button>
+
+        <a href="{{ path('app_client') }}" class="link">
+            Réinitialiser
+        </a>
     </form>
-    <select id="newletter" class="filter filter--select">
-        <option value="">--Veuillez choisir une option--</option>
-        <option value="oui">Oui</option>
-        <option value="non">Non</option>
-    </select>
-    <select id="loyalty" class="filter filter--select">
-        <option value="">--Veuillez choisir une option--</option>
-        <option value="Nouveau">Nouveau</option>
-        <option value="À developper">À développer</option>
-        <option value="Client régulier">Client régulier</option>
-        <option value="Client fidèle">Client fidèle</option>
-    </select>
-    <select id="city" class="filter filter--select">
-        <option value="">--Veuillez choisir une option--</option>
-        <option value="oui">Nantes</option>
-        <option value="non">Strasbourg</option>
-    </select>
-    <p class="btn">
-        <img src="" class="icon" alt="Icône"/>
-        Filtres
-    </p>
-    <div class="wrapper">
-        <p>Autres filtres</p>
-        <p>Autres filtres</p>
-        <p>Autres filtres</p>
-        <p>Autres filtres</p>
-    </div>
-    <p class="link">Réinitialiser</p>
 </div>
 {% endblock %}
 
 {% block statistics %}
 <div class="statistics">
     <figure class="stat">
-        <img src="" alt="" class="icon">
+        <span class="icon__container">
+            <img src="{{ asset('img/icons/users.svg') }}" alt="Icône d'utilisateur" class="icon">
+        </span>
         <div class="legend">
             <p class="name">Total des clients</p>
             <p class="number">{{ totalClients }}</p>
@@ -118,23 +127,28 @@
         </div>
     </figure>
     <figure class="stat">
-        <img src="" alt="" class="icon">
+        <span class="icon__container">
+            <img src="{{ asset('img/icons/star.svg') }}" alt="Icône d'une étoile" class="icon">
+        </span>
         <div class="legend">
             <p class="name">Clients fidèles</p>
             <p class="number">{{ loyalClients }}</p>
-            <p class="percent">{{ percentClient }} % du total</p>
-        </div>
+            <p class="percent">{{ percentClient|number_format(2, ',', ' ') }} % du total</p>
     </figure>
     <figure class="stat">
-        <img src="" alt="" class="icon">
+        <span class="icon__container">
+            <img src="{{ asset('img/icons/gift.svg') }}" alt="Icône d'un cadeau" class="icon">
+        </span>
         <div class="legend">
             <p class="name">Points émis</p>
             <p class="number">{{ loyalty }}</p>
-            <p class="percent">+ {{ thisMonth }} ce mois</p>
+            <p class="percent">+ {{ thisMonth|number_format(2, ',', ' ') }} ce mois</p>
         </div>
     </figure>
     <figure class="stat">
-        <img src="" alt="" class="icon">
+        <span class="icon__container">
+            <img src="{{ asset('img/icons/calendar.svg') }}" alt="Icône d'un calendrier" class="icon">
+        </span>
         <div class="legend">
             <p class="name">Total des achats</p>
             <p class="number">{{ totalSales }} €</p>
@@ -160,9 +174,9 @@
 {% for client in clients %}
     <tr class="line">
         <th class="corps">
-            <img src="" alt="" class="icon">
+            <p class="initial initial--{{ client.nom|slice(0, 1)|lower }}">{{ client.nom|slice(0, 1)|upper }}{{ client.prenom|slice(0, 1)|upper }}</p>
             <div class="part">
-                <p class="corps">{{ client.prenom }} {{ client.nom }}</p>
+                <p class="corps">{{ client.nom }} {{ client.prenom }}</p>
                 <p class="corps corps--second">{{ client.email }}</p>
             </div>
         </th>
@@ -195,10 +209,14 @@
         {% endif %}
         </th>
         <th class="corps">
-            <img src="" alt="" class="icon">
+            <a href="" target="" class="icon__container">
+                <img src="{{ asset('img/icons/eye.svg') }}" alt="Voir la cible" class="icon">
+            </a>
         </th>
         <th class="corps">
-            <img src="" alt="" class="icon">
+            <span class="icon__container actions">
+                <img src="{{ asset('img/icons/etc.svg') }}" alt="Voir les paramètres" class="icon">
+            </span>
         </th>
     </tr>
 {% endfor %} 

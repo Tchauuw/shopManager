@@ -5,9 +5,9 @@
     --primary: #6D28D9;
     --primaryDark: #F3E8FF;
 
-    --secondaryLight: #0F172A;
+    --secondaryLight: #E0F2FE;
     --secondary: #0EA5E9;
-    --secondaryDark: #E0F2FE;
+    --secondaryDark: #0F172A;
     
     --successLight: #DCFCE7;
     --success: #16A34A;
@@ -34,9 +34,268 @@
 }
 
 /* -- -- -- -- -- RECURRENTS -- -- -- -- -- */
+p {
+    font-family: var(--ffMRe);
+}
+
 .title {
     font-family: var(--ffMBo);
     font-size: 24px;
+}
+
+.name {
+    font-family: var(--ffMBo);
+    font-size: 16px;
+}
+
+.icon {
+    aspect-ratio: 1;
+    width: 24px;
+    height: auto;
+    display: block;
+}
+
+.icon__container {
+    display: block;
+    width: fit-content;
+}
+
+/* -- -- -- -- -- INITIAL -- -- -- -- -- */
+.initial {
+    font-family: var(--ffMMe);
+    font-size: 24px;
+    padding: 16px;
+    border-radius: 50px;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    height: auto;
+}
+
+
+.initial--a {
+     background-color: #FCE7F3; 
+     color: #BE185D; 
+}
+
+.initial--b {
+     background-color: #EDE9FE; 
+     color: #6D28D9; 
+}
+
+.initial--c {
+     background-color: #DBEAFE; 
+     color: #1D4ED8; 
+}
+
+.initial--d {
+     background-color: #E0F2FE; 
+     color: #0369A1; 
+}
+
+.initial--e {
+     background-color: #CFFAFE; 
+     color: #0E7490; 
+}
+
+.initial--f {
+     background-color: #CCFBF1; 
+     color: #0F766E; 
+}
+
+.initial--g {
+     background-color: #D1FAE5; 
+     color: #047857; 
+}
+
+.initial--h {
+     background-color: #DCFCE7; 
+     color: #15803D; 
+}
+
+.initial--i {
+     background-color: #ECFCCB; 
+     color: #4D7C0F; 
+}
+
+.initial--j {
+     background-color: #FEF9C3; 
+     color: #A16207; 
+}
+
+.initial--k {
+     background-color: #FEF3C7; 
+     color: #B45309; 
+}
+
+.initial--l {
+     background-color: #FFEDD5; 
+     color: #C2410C; 
+}
+
+.initial--m {
+     background-color: #FEE2E2; 
+     color: #B91C1C; 
+}
+
+.initial--n {
+     background-color: #FFE4E6; 
+     color: #BE123C; 
+}
+
+.initial--o {
+     background-color: #FCE7F3; 
+     color: #9D174D; 
+}
+
+.initial--p {
+     background-color: #F3E8FF; 
+     color: #7E22CE; 
+}
+
+.initial--q {
+     background-color: #EDE9FE; 
+     color: #5B21B6; 
+}
+
+.initial--r {
+     background-color: #E0E7FF; 
+     color: #4338CA; 
+}
+
+.initial--s {
+     background-color: #DBEAFE; 
+     color: #1E40AF; 
+}
+
+.initial--t {
+     background-color: #E0F2FE; 
+     color: #075985; 
+}
+
+.initial--u {
+     background-color: #CFFAFE; 
+     color: #155E75; 
+}
+
+.initial--v {
+     background-color: #CCFBF1; 
+     color: #115E59; 
+}
+
+.initial--w {
+     background-color: #D1FAE5; 
+     color: #065F46; 
+}
+
+.initial--x {
+     background-color: #DCFCE7; 
+     color: #166534; 
+}
+
+.initial--y {
+     background-color: #FEF3C7; 
+     color: #92400E; 
+}
+
+.initial--z {
+     background-color: #FFEDD5; 
+     color: #9A3412; 
+}
+
+
+/* -- -- -- -- -- BUTTONS -- -- -- -- -- */
+.btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-family: var(--ffMRe);
+    color: var(--white);
+    background-color: var(--primary);
+    border: 1px solid var(--primary);
+    width: fit-content;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    transition: all .3s ease;
+}
+
+.btn .icon {
+    filter: brightness(0) invert(1);
+    transition: all .3s ease;
+}
+
+.btn--secondary {
+    background-color: var(--white);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+}
+
+.btn--secondary .icon {
+    filter: brightness(0) saturate(100%) invert(24%) sepia(97%) saturate(2385%) hue-rotate(252deg) brightness(88%) contrast(91%);
+    transition: all .3s ease;
+}
+
+.tag {
+    padding: 10px 16px;
+    border-radius: 16px;
+    font-family: var(--ffMRe);
+    color: var(--primary);
+    background-color: var(--primaryLight);
+    width: fit-content;
+    display: block;
+}
+
+.tag--success {
+    color: var(--success);
+    background-color: var(--successLight);
+}
+
+.tag--error {
+    color: var(--error);
+    background-color: var(--errorLight);
+}
+
+.tag--warning {
+    color: var(--warning);
+    background-color: var(--warningLight);
+}
+
+.tag--primary {
+    color: var(--primary);
+    background-color: var(--primaryLight);
+}
+
+.tag--secondary {
+    color: var(--secondary);
+    background-color: var(--secondaryLight);
+}
+
+@media (pointer: fine) {
+    .btn:hover {
+        color: var(--primary);
+        background-color: var(--white);
+        border: 1px solid var(--primary);
+        transition: all .3s ease;
+    }
+
+    .btn:hover .icon {
+        filter: brightness(0) saturate(100%) invert(24%) sepia(97%) saturate(2385%) hue-rotate(252deg) brightness(88%) contrast(91%);
+        transition: all .3s ease;
+    }
+
+    .btn--secondary:hover {
+        color: var(--white);
+        background-color: var(--primary);
+        border: 1px solid var(--primary);
+    }
+
+    .btn--secondary:hover .icon {
+        filter: brightness(0) invert(1);
+        transition: all .3s ease;
+    }
 }
 
 /* -- -- -- -- -- RECURSIVE COMPONENT -- -- -- -- -- */

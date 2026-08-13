@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Client;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,18 +18,42 @@ class ClientRepository extends ServiceEntityRepository
     }
 
     // Filter
-    public function findByFilters(?string $search = null): array
+    public function findByFilters(
+        ?string $searchFilter = null,
+        ?string $newsletterFilter = null,
+        ?string $cityFilter = null
+        ): Query
     {
         $qb = $this->createQueryBuilder('c')
             ->orderBy('c.id', 'DESC');
 
-        if($search) {
+        if($searchFilter) {
             $qb
-                ->andWhere('c.nom LIKE :search')
-                ->setParameter('search', '%' . $search . '%');
+                ->andWhere(
+                    $qb->expr()->orX(
+                        'c.nom LIKE :search',
+                        'c.prenom LIKE :search',
+                        'c.email LIKE :search',
+                    )
+                )
+                ->setParameter('search', '%' . $searchFilter . '%');
         }
 
-        return $qb->getQuery()->getResult();
+        if($newsletterFilter === 'oui') {
+            $qb->andWhere('c.newsletter = 1');
+        }
+
+        if($newsletterFilter === 'non') {
+            $qb->andWhere('c.newsletter = 0');
+        }
+
+        if ($cityFilter) {
+            $qb
+                ->andWhere('c.ville = :city')
+                ->setParameter('city', $cityFilter);
+        }
+
+        return $qb->getQuery();
     }
 
 
@@ -40,6 +65,15 @@ class ClientRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
+    public function findAllCities(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('DISTINCT c.ville')
+            ->groupBy('c.ville')
+            ->getQuery()
+            ->getResult();
+    }
+    
     public function findLoyalClients(): array
     {
         $date = new \DateTimeImmutable('-30 days');

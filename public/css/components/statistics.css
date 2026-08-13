@@ -3,6 +3,7 @@
     align-items: flex-start;
     gap: 24px;
     justify-content: flex-start;
+    flex-wrap: nowrap;
 }
 
 .stat {
@@ -10,6 +11,74 @@
     align-items: flex-start;
     gap: 16px;
     border-radius: 8px;
-    border: 1px solid var(--grey);
+    border: 1px solid var(--greyLight);
+    padding: 16px;
+    width: 25%;
+    min-width: 250px;
+}
+
+.stat .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.stat .name {
+    font-size: 12px;
+    color: var(--greyDark);
+    width: 100%;
+}
+
+.stat .number {
+    font-family: var(--ffMMe);
+    font-size: 20px;
+}
+
+.stat .percent {
+    font-family: var(--ffMRe);
+    font-size: 10px;
+    color: var(--success);
+    display: flex;
+    align-items: flex-end;
+}
+
+.stat .icon {
+    aspect-ratio: 1;
+    width: 32px;
+    height: auto;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%) invert(25%) sepia(91%) saturate(2481%) hue-rotate(252deg) brightness(85%) contrast(93%);
+}
+
+.stat > .icon__container {
     padding: 8px;
+    border-radius: 16px;
+}
+
+.stat:nth-child(1) > .icon__container {
+    background-color: var(--primaryLight);
+}
+
+.stat:nth-child(2) .icon {
+    filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(1076%) hue-rotate(93deg) brightness(91%) contrast(89%);
+}
+
+.stat:nth-child(2) > .icon__container {
+    background-color: var(--successLight);
+}
+
+.stat:nth-child(3) .icon {
+    filter: brightness(0) saturate(100%) invert(67%) sepia(89%) saturate(1025%) hue-rotate(359deg) brightness(101%) contrast(92%);
+}
+
+.stat:nth-child(3) > .icon__container {
+    background-color: var(--warningLight);
+}
+
+.stat:nth-child(4) .icon {
+    filter: brightness(0) saturate(100%) invert(54%) sepia(94%) saturate(1767%) hue-rotate(165deg) brightness(94%) contrast(91%);
+}
+
+.stat:nth-child(4) > .icon__container {
+    background-color: var(--secondaryLight);
 }

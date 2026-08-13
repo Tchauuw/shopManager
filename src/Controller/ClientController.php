@@ -28,9 +28,15 @@ final class ClientController extends AbstractController
         MouvementFideliteRepository $mouvementFideliteR,
         VenteRepository $venteR): Response
     {
-        $search = $request->query->get('search');
+        $searchFilter = $request->query->get('search');
+        $newsletterFilter = $request->query->get('newsletter');
+        $cityFilter = $request->query->get('city');
 
-        $queryClient = $clientR->findByFilters($search);
+        $queryClient = $clientR->findByFilters(
+            $searchFilter,
+            $newsletterFilter,
+            $cityFilter
+            );
 
         $clients = $paginator->paginate(
             $queryClient,
@@ -44,7 +50,7 @@ final class ClientController extends AbstractController
             ->orderBy('b.id', 'DESC')
             ->getQuery();
 
-        $queryClient = $clientR->findAllOrderedById();
+        $queryClient = $clientR->findByFilters();
 
         /* Clients */
         $totalClients = $clientR->clientsCount();
@@ -52,6 +58,7 @@ final class ClientController extends AbstractController
         $findLoyalClients = $clientR->findLoyalClients();
         $count = count($findLoyalClients);
         $percentClient = ($count/$totalClients) * 100;
+        $findAllCities = $clientR->findAllCities();
 
         /* Ventes */
         $ventes = $queryVente->getResult();
@@ -77,6 +84,7 @@ final class ClientController extends AbstractController
             'thisMonth' => $thisMonth,
             'totalSales' => $totalSales,
             'salesThisMonth' => $salesThisMonth,
+            'findAllCities' => $findAllCities,
         ]);
     }
 }
