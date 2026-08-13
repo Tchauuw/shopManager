@@ -262,7 +262,20 @@
     </div>
 </aside> #}
 
-{{ knp_pagination_render(clients) }}
+{# {{ knp_pagination_render(clients) }} #}
+<form method="get">
+<select name="limit" id="limit" class="filter filter--select">
+    {% for limit in allowedLimits %}
+        <option
+            value="{{ limit }}"
+            {{ app.request.query.getInt('limit', 10) == limit ? 'selected' : '' }}
+        >
+            {{ limit }}
+        </option>
+    {% endfor %}
+</select>
+<input type="submit" value="Rechercher"/>
+</form>
 {% endblock %}
 </main>
 {% endblock %}

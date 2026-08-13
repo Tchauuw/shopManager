@@ -32,6 +32,14 @@ final class ClientController extends AbstractController
         $newsletterFilter = $request->query->get('newsletter');
         $cityFilter = $request->query->get('city');
 
+        $allowedLimits = [10, 50, 100, 250, 500, 1000];
+
+        $limit = $request->query->getInt('limit', 10);
+
+        if(!in_array($limit, $allowedLimits, true)) {
+            $limit = 10;
+        }
+
         $queryClient = $clientR->findByFilters(
             $searchFilter,
             $newsletterFilter,
@@ -41,7 +49,7 @@ final class ClientController extends AbstractController
         $clients = $paginator->paginate(
             $queryClient,
             $request->query->getInt('page', 1),
-            5
+            $limit
         );    
 
         $queryVente = $entityManager
@@ -85,6 +93,7 @@ final class ClientController extends AbstractController
             'totalSales' => $totalSales,
             'salesThisMonth' => $salesThisMonth,
             'findAllCities' => $findAllCities,
+            'allowedLimits' => $allowedLimits,
         ]);
     }
 }
