@@ -1,0 +1,17 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-block: 20px;
+}
+
+.header .btns {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.header .title {
+    font-family: var(--ffMMe);
+    margin-bottom: 8px;
+}

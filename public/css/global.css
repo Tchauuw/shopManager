@@ -1,7 +1,7 @@
 /* -- -- -- -- -- GLOBAL -- -- -- -- -- */
 :root {
     /* COLORS */
-    --primaryLight: #8B5CF6;
+    --primaryLight: #aa88fa;
     --primary: #6D28D9;
     --primaryDark: #F3E8FF;
 
@@ -24,6 +24,7 @@
 
     --white: #FFFFFF;
     --whiteDark: #F8FAFC;
+    --black: #000000;
     
     /* FONTS */
     /* MAIN */
@@ -31,9 +32,19 @@
     --ffMRe: "InterRegular", sans-serif;
     --ffMMe: "InterMedium", sans-serif;
     --ffMBo: "InterBold", sans-serif;
+
+    /* BORDER-RADIUS */
+    --brLi: 4px;
+    --br: 8px;
+    --brMe: 16px;
+    --brBi: 24px;
 }
 
-/* -- -- -- -- -- RECURRENTS -- -- -- -- -- */
+/* -- -- -- -- -- RECURRENTS - FONTS COMPONENTS -- -- -- -- -- */
+body {
+    background-color: var(--whiteDark);
+}
+
 p {
     font-family: var(--ffMRe);
 }
@@ -46,6 +57,23 @@ p {
 .name {
     font-family: var(--ffMBo);
     font-size: 16px;
+}
+
+.corps {
+    font-family: var(--ffMRe);
+    font-size: 1rem;
+    color: var(--black);
+}
+
+.corps--little {
+    font-size: .75rem;
+    color: var(--grey);
+}
+
+.link {
+    font-family: var(--ffMRe);
+    font-size: 1rem;
+    color: var(--primary);
 }
 
 .icon {
@@ -66,12 +94,13 @@ p {
     font-size: 24px;
     padding: 16px;
     border-radius: 50px;
-    width: fit-content;
+    width: 35px;
     display: flex;
     align-items: center;
     justify-content: center;
     aspect-ratio: 1;
     height: auto;
+    margin: 8px 0px 8px 8px;
 }
 
 
@@ -208,9 +237,10 @@ p {
 
 /* -- -- -- -- -- BUTTONS -- -- -- -- -- */
 .btn {
-    padding: 10px 16px;
-    border-radius: 8px;
+    padding: 8px 12px;
+    border-radius: var(--br);
     font-family: var(--ffMRe);
+    font-size: .75rem;
     color: var(--white);
     background-color: var(--primary);
     border: 1px solid var(--primary);
@@ -225,6 +255,7 @@ p {
 .btn .icon {
     filter: brightness(0) invert(1);
     transition: all .3s ease;
+    max-width: 18px;
 }
 
 .btn--secondary {
@@ -240,7 +271,7 @@ p {
 
 .tag {
     padding: 10px 16px;
-    border-radius: 16px;
+    border-radius: var(--brMe);
     font-family: var(--ffMRe);
     color: var(--primary);
     background-color: var(--primaryLight);
@@ -299,11 +330,3 @@ p {
 }
 
 /* -- -- -- -- -- RECURSIVE COMPONENT -- -- -- -- -- */
-body:has(> .clients){
-    display: grid;
-    grid-template-columns: .2fr .8fr;
-}
-
-body > .clients {
-    margin-left: 20vw;
-}

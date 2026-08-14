@@ -1,0 +1,52 @@
+.array {
+    border: 1px solid var(--greyLight);
+    border-radius: var(--br);
+    width: 100%;
+}
+
+.array .names {
+    background-color: var(--greyLight);
+    border-radius: var(--br) var(--br) 0px 0px;
+}
+
+.array tbody {
+    border-radius: var(--br);
+}
+
+.array .names > .name {
+    font-family: var(--ffMBo);
+    font-size: .875rem;
+    color: var(--black);
+    text-align: start;
+    padding-block: 8px;
+    margin-inline: 6px;
+    border-right: 12px;
+}
+
+.array .names > .name:first-child {
+    padding-left: 8px;
+}
+
+.array .names > .name:last-child {
+    padding-right: 8px;
+    border-right: unset;
+}
+
+.array .line {
+    padding-block: 8px;
+}
+
+.array .identity {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.array .identity .part {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    height: 100%;
+    gap: 8px;
+}

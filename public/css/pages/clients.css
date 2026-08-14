@@ -1,0 +1,10 @@
+body:has(> .clients){
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+body > .clients {
+    margin-left: 20%;
+    width: calc(80% - 24px);
+}

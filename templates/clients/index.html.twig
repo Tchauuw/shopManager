@@ -53,11 +53,9 @@
 <header class="header">
     <div class="left">
         <h1 class="title">Clients</h1>
-        <div class="corps">
-            <p>Gérez et consultez la liste de vos clients.</p>
-        </div>
+        <p class="corps corps--little">Gérez et consultez la liste de vos clients.</p>
     </div>
-    <div class="right">
+    <div class="btns">
         <p class="btn">
             <img src="{{ asset('img/icons/export.svg') }}" class="icon" alt="Icône d'export"/>
             Exporter
@@ -71,15 +69,13 @@
 {% endblock %}
 
 {% block filters %}
-<div class="filters">
-    <form method="get">
-
+<form method="get" class="filters">
         <input
             type="search"
             name="search"
             id="client"
             value="{{ app.request.query.get('search') }}"
-            placeholder="Rechercher"
+            placeholder="Nom, prénom, email ..."
             class="filter filter--text"
         >
 
@@ -110,8 +106,7 @@
         <a href="{{ path('app_client') }}" class="link">
             Réinitialiser
         </a>
-    </form>
-</div>
+</form>
 {% endblock %}
 
 {% block statistics %}
@@ -159,12 +154,12 @@
 {% endblock %}
 
 {% block list %}
-<table class="columns">
+<table class="array">
     <tr class="names">
         <th class="name">Client</th>
         <th class="name">Carte fidélité</th>
         <th class="name">Solde de points</th>
-        <th class="name">Dernère commande</th>
+        <th class="name">Dernière commande</th>
         <th class="name">Total des achats</th>
         <th class="name">Newsletter</th>
         <th class="name">Statut</th>
@@ -173,10 +168,10 @@
     </tr>
 {% for client in clients %}
     <tr class="line">
-        <th class="corps">
-            <p class="initial initial--{{ client.nom|slice(0, 1)|lower }}">{{ client.nom|slice(0, 1)|upper }}{{ client.prenom|slice(0, 1)|upper }}</p>
+        <th class="corps identity">
+            <p class="initial initial--{{ client.nom|slice(0,1)|lower }}">{{ client.nom|slice(0,1)|upper }}{{ client.prenom|slice(0,1)|upper }}</p>
             <div class="part">
-                <p class="corps">{{ client.nom }} {{ client.prenom }}</p>
+                <p class="corps">{{ client.prenom }} {{ client.nom }}</p>
                 <p class="corps corps--second">{{ client.email }}</p>
             </div>
         </th>
@@ -209,14 +204,10 @@
         {% endif %}
         </th>
         <th class="corps">
-            <a href="" target="" class="icon__container">
-                <img src="{{ asset('img/icons/eye.svg') }}" alt="Voir la cible" class="icon">
-            </a>
+            <img src="" alt="" class="icon">
         </th>
         <th class="corps">
-            <span class="icon__container actions">
-                <img src="{{ asset('img/icons/etc.svg') }}" alt="Voir les paramètres" class="icon">
-            </span>
+            <img src="" alt="" class="icon">
         </th>
     </tr>
 {% endfor %} 
