@@ -3,9 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Client;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @extends ServiceEntityRepository<Client>
@@ -25,6 +27,10 @@ class ClientRepository extends ServiceEntityRepository
         ): Query
     {
         $qb = $this->createQueryBuilder('c')
+            ->leftJoin('c.ventes', 'v')
+            ->addSelect('MAX(v.date) AS lastBuy')
+            ->addSelect('SUM(v.montantTotal) AS allBuys')
+            ->groupBy('c.id')
             ->orderBy('c.id', 'DESC');
 
         if($searchFilter) {
@@ -71,7 +77,7 @@ class ClientRepository extends ServiceEntityRepository
             ->select('DISTINCT c.ville')
             ->groupBy('c.ville')
             ->getQuery()
-            ->getResult();
+            ->getSingleColumnResult();
     }
     
     public function findLoyalClients(): array

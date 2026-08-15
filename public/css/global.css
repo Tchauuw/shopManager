@@ -18,6 +18,7 @@
     --errorLight: #FEE2E2;
     --error: #EF4444;
 
+    --greyExtraLight: #efefef;
     --greyLight: #E2E8F0;
     --grey: #64748B;
     --greyDark: #475569;
@@ -59,13 +60,15 @@ p {
     font-size: 16px;
 }
 
-.corps {
+.corps,
+.corps * {
     font-family: var(--ffMRe);
-    font-size: 1rem;
+    font-size: .875rem;
     color: var(--black);
 }
 
-.corps--little {
+.corps--little,
+.corps--little * {
     font-size: .75rem;
     color: var(--grey);
 }
@@ -94,7 +97,7 @@ p {
     font-size: 24px;
     padding: 16px;
     border-radius: 50px;
-    width: 35px;
+    width: 30px;
     display: flex;
     align-items: center;
     justify-content: center;

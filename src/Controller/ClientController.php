@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Client;
-use App\Entity\MouvementFidelite;
 use App\Entity\Vente;
 use App\Repository\CarteFideliteRepository;
 use App\Repository\ClientRepository;
@@ -92,8 +91,8 @@ final class ClientController extends AbstractController
             'thisMonth' => $thisMonth,
             'totalSales' => $totalSales,
             'salesThisMonth' => $salesThisMonth,
-            'findAllCities' => $findAllCities,
-            'allowedLimits' => $allowedLimits,
+            'cities' => $findAllCities,
+            'allowedLimits' => $allowedLimits
         ]);
     }
 }

@@ -6,42 +6,42 @@
 
 {% block nav %}
         <nav class="menu">
-            <img src="" class="logo" alt="Logo de Shop manager" />
+            <img src="{{ asset('img/icons/shop.svg') }}" class="logo" alt="Logo de Shop manager" />
             <ul class="list">
                 <li class="item">
                     <a href="" class="link" target="">
-                    <img src="" class="icon" alt="Icône"/>
+                    <img src="{{ asset('img/icons/dashboard.png') }}" class="icon" alt="Tableau de bord"/>
                     Tableau de bord</a>
                 </li>
                 <li class="item">
                     <a href="" class="link" target="">
-                    <img src="" class="icon" alt="Icône"/>
+                    <img src="{{ asset('img/icons/users.svg') }}" class="icon" alt="Clients"/>
                     Clients</a>
                 </li>
                 <li class="item">
                     <a href="" class="link" target="">
-                    <img src="" class="icon" alt="Icône"/>
+                    <img src="{{ asset('img/icons/order.png') }}" class="icon" alt="Commandes"/>
                     Commandes</a>
                 </li>
                 <li class="item">
                     <a href="" class="link" target="">
-                    <img src="" class="icon" alt="Icône"/>
+                    <img src="{{ asset('img/icons/product.png') }}" class="icon" alt="Produits"/>
                     Produits</a>
                 </li>
                 <li class="item">
                     <a href="" class="link" target="">
-                    <img src="" class="icon" alt="Icône"/>
+                    <img src="{{ asset('img/icons/star.svg') }}" class="icon" alt="Fidélité"/>
                     Fidélité</a>
                 </li>
                 <li class="item">
                     <a href="" class="link" target="">
-                    <img src="" class="icon" alt="Icône"/>
+                    <img src="{{ asset('img/icons/settings.png') }}" class="icon" alt="Paramètres"/>
                     Paramètres</a>
                 </li>
             </ul>
             <div class="bottom">
                 <figure class="user">
-                    <img src="" class="avatar" alt="Avatar de l'utilisateur" />
+                    <img src="{{ asset('img/icons/user.svg') }}" class="avatar" alt="Avatar de l'utilisateur" />
                 </figure>
                 <a href="/" class="link link--error" target="">Déconnexion</a>
             </div>
@@ -70,42 +70,57 @@
 
 {% block filters %}
 <form method="get" class="filters">
-        <input
-            type="search"
-            name="search"
-            id="client"
-            value="{{ app.request.query.get('search') }}"
-            placeholder="Nom, prénom, email ..."
-            class="filter filter--text"
+
+    <input
+        type="search"
+        name="search"
+        value="{{ app.request.query.get('search') }}"
+        placeholder="Nom, prénom, email ..."
+        class="filter filter--text"
+    >
+
+    <select name="newsletter" class="filter filter--select">
+        <option value="">Newsletter</option>
+        <option value="oui" {{ app.request.query.get('newsletter') == 'oui' ? 'selected' : '' }}>
+            Oui
+        </option>
+        <option value="non" {{ app.request.query.get('newsletter') == 'non' ? 'selected' : '' }}>
+            Non
+        </option>
+    </select>
+
+    <select name="city" class="filter filter--select">
+        <option value="">Ville</option>
+
+        {% for city in cities %}
+        <option
+            value="{{ city }}"
+            {{ app.request.query.get('city') == city ? 'selected' : '' }}
         >
+            {{ city }}
+        </option>
+        {% endfor %}
+    </select>
 
-        <select name="newsletter" id="newsletter" class="filter filter--select">
-            <option value="">Newsletter</option>
-            <option value="oui" {{ app.request.query.get('newsletter') == 'oui' ? 'selected' : '' }}>
-                Oui
+    <select name="limit" class="filter filter--select">
+        {% for limit in allowedLimits %}
+            <option
+                value="{{ limit }}"
+                {{ app.request.query.getInt('limit', 10) == limit ? 'selected' : '' }}
+            >
+                {{ limit }} par page
             </option>
-            <option value="non" {{ app.request.query.get('newsletter') == 'non' ? 'selected' : '' }}>
-                Non
-            </option>
-        </select>
+        {% endfor %}
+    </select>
 
-        <select name="city" id="city" class="filter filter--select">
-            <option value="">Ville</option>
-            {% for city in findAllCities %}
-                <option value="{{ city.ville }}" {{ app.request.query.get('city') == " . {{ city.ville }} . " ? 'selected' : '' }}>{{ city.ville }}</option>
-            {% endfor %}
-            {# <option value="Strasbourg" {{ app.request.query.get('city') == 'Strasbourg' ? 'selected' : '' }}>
-                Strasbourg
-            </option> #}
-        </select>
+    <button type="submit">
+        Rechercher
+    </button>
 
-        <button type="submit">
-            Rechercher
-        </button>
+    <a href="{{ path('app_client') }}">
+        Réinitialiser
+    </a>
 
-        <a href="{{ path('app_client') }}" class="link">
-            Réinitialiser
-        </a>
 </form>
 {% endblock %}
 
@@ -154,6 +169,7 @@
 {% endblock %}
 
 {% block list %}
+<section class="array__container">
 <table class="array">
     <tr class="names">
         <th class="name">Client</th>
@@ -166,33 +182,52 @@
         <th class="name">Actions</th>
         <th class="name"></th>
     </tr>
-{% for client in clients %}
+{% for row in clients %}
+    {% set client = row[0] %}
+    {% set lastBuy = row.lastBuy %}
+    {% set allBuys = row.allBuys %}
     <tr class="line">
-        <th class="corps identity">
+        <th class="box identity">
             <p class="initial initial--{{ client.nom|slice(0,1)|lower }}">{{ client.nom|slice(0,1)|upper }}{{ client.prenom|slice(0,1)|upper }}</p>
             <div class="part">
                 <p class="corps">{{ client.prenom }} {{ client.nom }}</p>
                 <p class="corps corps--second">{{ client.email }}</p>
             </div>
         </th>
-        <th class="corps">
+        <th class="box">
             <p class="corps">#{{ client.carteFidelite.id }}</p>
         </th>
-        <th class="corps">
+        <th class="box">
             <p class="corps">{{ client.carteFidelite.soldePoints }}</p>
         </th>
-        <th class="corps">
-            <p class="corps">01/01/2000</p>
+        
+        <th class="box">
+            <p class="corps">
+            {% if allBuys is null %}
+                -
+            {% else %}
+                {{ allBuys|number_format(2, '.', '') }} €
+            {% endif %}
+            </p>
         </th>
-        <th class="corps">2549,87 €</th>
-        <th class="corps">
+        <th class="box">
+        
+            <p class="corps">
+            {% if lastBuy is null %}
+                -
+            {% else %}
+                {{ lastBuy|date('d/m/Y') }}
+            {% endif %}
+            </p> 
+        </th>
+        <th class="box">
         {% if client.newsletter == 1 %}
             <p class="tag tag--success">Oui</p>
         {% else %}
             <p class="tag tag--error">Non</p>
         {% endif %}
         </th>
-        <th class="corps">
+        <th class="box">
         {% if client.statut == 'fidele' %}
             <p class="tag tag--primary">Client fidèle</p>
         {% elseif client.statut == 'regulier' %}
@@ -203,70 +238,20 @@
             <p class="tag tag--warning">À développer</p>
         {% endif %}
         </th>
-        <th class="corps">
-            <img src="" alt="" class="icon">
+        <th class="box box--icon">
+            <img src="{{ asset('img/icons/eye.svg') }}" alt="Voir plus" class="icon">
         </th>
-        <th class="corps">
-            <img src="" alt="" class="icon">
+        <th class="box box--icon">
+            <img src="{{ asset('img/icons/etc.svg') }}" alt="Actions rapides" class="icon">
         </th>
     </tr>
 {% endfor %} 
 </table>
+</section>
 {% endblock %}
 
 {% block pagination %}
-{# <aside class="pagination">
-    <p class="corps">Affichage 1 à 8 sur 256 clients</p>
-
-    <div class="container">
-        <div class="pages">
-            <a href="" target="" class="item">
-                <img src="" alt="" class="icon">
-            </a>
-            <a href="" target="" class="item">
-                1
-            </a>
-            <a href="" target="" class="item">
-                2
-            </a>
-            <a href="" target="" class="item">
-                3
-            </a>
-            <a href="" target="" class="item">
-                ...
-            </a>
-            <a href="" target="" class="item">
-                32
-            </a>
-            <a href="" target="" class="item">
-                <img src="" alt="" class="icon">
-            </a>
-        </div>
-        <select name="perpage" class="itemsperpage">
-            <option value="10" class="otion">10 par page</option>
-            <option value="25" class="otion">25 par page</option>
-            <option value="50" class="otion">50 par page</option>
-            <option value="100" class="otion">100 par page</option>
-            <option value="250" class="otion">250 par page</option>
-            <option value="500" class="otion">500 par page</option>
-        </select>
-    </div>
-</aside> #}
-
-{# {{ knp_pagination_render(clients) }} #}
-<form method="get">
-<select name="limit" id="limit" class="filter filter--select">
-    {% for limit in allowedLimits %}
-        <option
-            value="{{ limit }}"
-            {{ app.request.query.getInt('limit', 10) == limit ? 'selected' : '' }}
-        >
-            {{ limit }}
-        </option>
-    {% endfor %}
-</select>
-<input type="submit" value="Rechercher"/>
-</form>
+{{ knp_pagination_render(clients) }}
 {% endblock %}
 </main>
 {% endblock %}

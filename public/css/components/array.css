@@ -1,12 +1,25 @@
+.array__container {
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.array__container::-webkit-scrollbar {
+    display: none;
+}
+
 .array {
     border: 1px solid var(--greyLight);
+    background-color: var(--white);
     border-radius: var(--br);
     width: 100%;
+    border-collapse: separate;
+    border-spacing: 50px 0px;
 }
 
 .array .names {
-    background-color: var(--greyLight);
     border-radius: var(--br) var(--br) 0px 0px;
+    border-bottom: 1px solid var(--greyLight);
 }
 
 .array tbody {
@@ -14,13 +27,13 @@
 }
 
 .array .names > .name {
-    font-family: var(--ffMBo);
+    font-family: var(--ffMMe);
     font-size: .875rem;
     color: var(--black);
     text-align: start;
-    padding-block: 8px;
-    margin-inline: 6px;
+    padding-block: 12px;
     border-right: 12px;
+    white-space: nowrap;
 }
 
 .array .names > .name:first-child {
@@ -32,13 +45,9 @@
     border-right: unset;
 }
 
-.array .line {
-    padding-block: 8px;
-}
-
 .array .identity {
     display: flex;
-    gap: 8px;
+    gap: 16px;
     align-items: center;
 }
 
@@ -49,4 +58,34 @@
     justify-content: center;
     height: 100%;
     gap: 8px;
+}
+
+.array .identity .part .corps {
+    font-family: var(--ffMMe);
+    color: var(--black);
+}
+
+.array .identity .part .corps--second {
+    font-family: var(--ffMRe);
+    color: var(--greyDark);
+    font-size: .75rem;
+}
+
+.array .line {
+    background-color: var(--white);
+}
+
+.array .line .box--icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+} 
+
+.array .line .box--icon:last-child {
+    margin-right: unset;
+}
+
+.array .tag {
+    white-space: nowrap;
 }
