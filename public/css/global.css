@@ -8,6 +8,9 @@
     --secondaryLight: #E0F2FE;
     --secondary: #0EA5E9;
     --secondaryDark: #0F172A;
+
+
+    --other: #2c3752;
     
     --successLight: #DCFCE7;
     --success: #16A34A;
@@ -17,6 +20,7 @@
 
     --errorLight: #FEE2E2;
     --error: #EF4444;
+    --errorDark: #cf1919;
 
     --greyExtraLight: #efefef;
     --greyLight: #E2E8F0;
@@ -73,10 +77,17 @@ p {
     color: var(--grey);
 }
 
-.link {
+.link,
+.link:visited {
     font-family: var(--ffMRe);
     font-size: 1rem;
     color: var(--primary);
+}
+
+.link--error,
+.link--error:visited {
+    color: var(--error);
+    transition: all .3s ease;
 }
 
 .icon {
@@ -89,6 +100,13 @@ p {
 .icon__container {
     display: block;
     width: fit-content;
+}
+
+@media (pointer: fine) {
+    .link--error:hover {
+        color: var(--errorDark);
+        transition: all .3s ease;
+    }
 }
 
 /* -- -- -- -- -- INITIAL -- -- -- -- -- */

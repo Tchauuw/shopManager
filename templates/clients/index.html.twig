@@ -6,7 +6,7 @@
 
 {% block nav %}
         <nav class="menu">
-            <img src="{{ asset('img/icons/shop.svg') }}" class="logo" alt="Logo de Shop manager" />
+            <img src="{{ asset('img/icons/shop.svg') }}" class="icon icon--logo" alt="Logo de Shop manager" />
             <ul class="list">
                 <li class="item">
                     <a href="" class="link" target="">
@@ -41,9 +41,14 @@
             </ul>
             <div class="bottom">
                 <figure class="user">
-                    <img src="{{ asset('img/icons/user.svg') }}" class="avatar" alt="Avatar de l'utilisateur" />
+                    <img src="{{ asset('img/icons/user.svg') }}" class="icon icon--avatar" alt="Avatar de l'utilisateur" />
                 </figure>
                 <a href="/" class="link link--error" target="">Déconnexion</a>
+                <div class="identity">
+                    <p class="corps">Jean DUPONT<br>À COMPLÉTER</p>
+                    <p class="corps">Administrateur<br>À COMPLÉTER</p>
+                </div>
+                <img src="{{ asset('img/icons/dropdown.svg') }}" class="icon" alt="Icône de descente vers le bas" />
             </div>
         </nav>
 {% endblock %}
@@ -251,7 +256,19 @@
 {% endblock %}
 
 {% block pagination %}
-{{ knp_pagination_render(clients) }}
+
+{% set totalItems = clients.getTotalItemCount %}
+
+{% if (clients.getCurrentPageNumber() * pageLimit) >= totalItems %}
+   {% set maxItem = totalItems %}
+{% else %}
+    {% set maxItem = clients.getCurrentPageNumber() * pageLimit %}
+{% endif %}
+
+<div class="pagination">
+    <p class="corps">Affichage {{ (clients.getCurrentPageNumber - 1) * pageLimit }} à {{ maxItem }} sur {{ (totalItems / pageLimit)|round(0, 'ceil') }} pages</p>
+    {{ knp_pagination_render(clients) }}
+</div>
 {% endblock %}
 </main>
 {% endblock %}

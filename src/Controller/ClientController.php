@@ -92,7 +92,8 @@ final class ClientController extends AbstractController
             'totalSales' => $totalSales,
             'salesThisMonth' => $salesThisMonth,
             'cities' => $findAllCities,
-            'allowedLimits' => $allowedLimits
+            'allowedLimits' => $allowedLimits,
+            'pageLimit' => $limit,
         ]);
     }
 }
