@@ -13,11 +13,12 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class ClientController extends AbstractController
 {
-    #[Route('/admin/clients', name: 'app_client')]
+    #[Route('/admin/clients', name: 'admin_clients')]
     public function index(
         Request $request,
         PaginatorInterface $paginator,
@@ -95,5 +96,63 @@ final class ClientController extends AbstractController
             'allowedLimits' => $allowedLimits,
             'pageLimit' => $limit,
         ]);
+    }
+
+    #[Route('/admin/clients/export', name:'admin_clients_export')]
+    public function export(ClientRepository $clientR): StreamedResponse
+    {
+        $response = new StreamedResponse(function () use ($clientR) {
+            $handle = fopen('php://output', 'w');
+
+            fputcsv($handle, [
+                'ID',
+                'Nom',
+                'Prenom',
+                'Date de naissance',
+                'Téléphone',
+                'E-mail',
+                'Adresse',
+                'Code postal',
+                'Ville',
+                'Complément d\'adresse',
+                'Pays',
+                'Date de création',
+                'Newsletter',
+                'ID de carte fidélité',
+            ], ';');
+
+        foreach ($clientR->findAll() as $client) {
+            fputcsv($handle, [
+                $client->getId(),
+                $client->getNom(),
+                $client->getPrenom(),
+                $client->getDateNaissance()?->format('d/m/Y'),
+                $client->getTelephone(),
+                $client->getEmail(),
+                $client->getAdresse(),
+                $client->getCodePostal(),
+                $client->getVille(),
+                $client->getComplementAdresse(),
+                $client->getPays(),
+                $client->getDateCreation()?->format('d/m/Y'),
+                $client->isNewsletter(),
+                $client->getCarteFidelite()?->getId(),
+            ], ';');
+        }
+
+        fclose($handle);
+        });
+
+        $response->headers->set(
+            'Content-Type',
+            'text/csv; charset=UTF-8'
+        );
+
+        $response->headers->set(
+            'Content-Disposition',
+            'attachment; filename=clients_' . date('dmy_his') . '.csv'
+        );
+
+        return $response;
     }
 }

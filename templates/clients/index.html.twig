@@ -61,10 +61,10 @@
         <p class="corps corps--little">Gérez et consultez la liste de vos clients.</p>
     </div>
     <div class="btns">
-        <p class="btn">
+        <a href="{{ path('admin_clients_export') }}" class="btn">
             <img src="{{ asset('img/icons/export.svg') }}" class="icon" alt="Icône d'export"/>
             Exporter
-        </p>
+        </a>
         <a href="" class="btn btn--secondary">
             <img src="{{ asset('img/icons/addUser.svg') }}" class="icon" alt="Icône d'ajout d'un utilisateur"/>
             Nouveau client
@@ -122,7 +122,7 @@
         Rechercher
     </button>
 
-    <a href="{{ path('app_client') }}">
+    <a href="">
         Réinitialiser
     </a>
 
