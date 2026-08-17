@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block nav %}
+        <nav class="menu">
+            <img src="{{ asset('img/icons/shop.svg') }}" class="icon icon--logo" alt="Logo de Shop manager" />
+            <ul class="list">
+                <li class="item">
+                    <a href="" class="link" target="">
+                    <img src="{{ asset('img/icons/dashboard.png') }}" class="icon" alt="Tableau de bord"/>
+                    Tableau de bord</a>
+                </li>
+                <li class="item">
+                    <a href="" class="link" target="">
+                    <img src="{{ asset('img/icons/users.svg') }}" class="icon" alt="Clients"/>
+                    Clients</a>
+                </li>
+                <li class="item">
+                    <a href="" class="link" target="">
+                    <img src="{{ asset('img/icons/order.png') }}" class="icon" alt="Commandes"/>
+                    Commandes</a>
+                </li>
+                <li class="item">
+                    <a href="" class="link" target="">
+                    <img src="{{ asset('img/icons/product.png') }}" class="icon" alt="Produits"/>
+                    Produits</a>
+                </li>
+                <li class="item">
+                    <a href="" class="link" target="">
+                    <img src="{{ asset('img/icons/star.svg') }}" class="icon" alt="Fidélité"/>
+                    Fidélité</a>
+                </li>
+                <li class="item">
+                    <a href="" class="link" target="">
+                    <img src="{{ asset('img/icons/settings.png') }}" class="icon" alt="Paramètres"/>
+                    Paramètres</a>
+                </li>
+            </ul>
+            <div class="bottom">
+                <figure class="user">
+                    <img src="{{ asset('img/icons/user.svg') }}" class="icon icon--avatar" alt="Avatar de l'utilisateur" />
+                </figure>
+                <a href="/" class="link link--error" target="">Déconnexion</a>
+                <div class="identity">
+                    <p class="corps">Jean DUPONT<br>À COMPLÉTER</p>
+                    <p class="corps">Administrateur<br>À COMPLÉTER</p>
+                </div>
+                <img src="{{ asset('img/icons/dropdown.svg') }}" class="icon" alt="Icône de descente vers le bas" />
+            </div>
+        </nav>
+{% endblock %}
+
+{% block body %}
+{% endblock %}

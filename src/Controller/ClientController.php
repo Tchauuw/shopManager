@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Client;
 use App\Entity\Vente;
+use App\Form\ClientType;
 use App\Repository\CarteFideliteRepository;
 use App\Repository\ClientRepository;
 use App\Repository\MouvementFideliteRepository;
@@ -95,6 +96,25 @@ final class ClientController extends AbstractController
             'cities' => $findAllCities,
             'allowedLimits' => $allowedLimits,
             'pageLimit' => $limit,
+        ]);
+    }
+
+    #[Route('/admin/clients/add', name:'admin_clients_add', methods: ['GET', 'POST'])]
+    public function add(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $client = new Client();
+        $form = $this->createForm(ClientType::class, $client);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($client);
+            $entityManager->flush();
+            return $this-> redirectToRoute('admin_clients', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('clients/add.html.twig', [
+            'client' => $client,
+            'formClientAdd' => $form,
         ]);
     }
 
