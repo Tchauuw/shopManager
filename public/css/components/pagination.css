@@ -2,9 +2,31 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 8px;
     padding: 8px;
 }
 
 .pagination > .corps {
     color: var(--grey);
+}
+
+.pagination span {
+    border-radius: var(--br);
+    padding: 4px;
+    background-color: var(--white);
+    color: var(--black);
+    border: 1px solid var(--greyLight);
+    font-family: var(--ffMRe);
+    font-size: 1rem;
+    aspect-ratio: 1/1;
+    width: 24px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination .current {
+    background-color: var(--primary);
+    color: var(--white);
 }
