@@ -25,11 +25,6 @@ class ClientType extends AbstractType
             ->add('email')
             ->add('telephone')
             ->add('newsletter')
-            ->add('dateCreation')
-            ->add('carteFidelite', EntityType::class, [
-                'class' => CarteFidelite::class,
-                'choice_label' => 'id',
-            ])
         ;
     }
 

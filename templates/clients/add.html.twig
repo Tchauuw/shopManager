@@ -54,7 +54,23 @@
 {% endblock %}
 <main class="admin">
 {% block form %}
-{{ form(formClientAdd, {'method': 'POST'}) }}
+{{ form_start(formClientAdd, {'method': 'post'}) }}
+
+{{ form_row(formClientAdd.nom) }}
+{{ form_row(formClientAdd.prenom) }}
+{{ form_row(formClientAdd.dateNaissance) }}
+{{ form_row(formClientAdd.adresse) }}
+{{ form_row(formClientAdd.complementAdresse) }}
+{{ form_row(formClientAdd.codePostal) }}
+{{ form_row(formClientAdd.ville) }}
+{{ form_row(formClientAdd.pays) }}
+{{ form_row(formClientAdd.email) }}
+{{ form_row(formClientAdd.telephone) }}
+{{ form_row(formClientAdd.newsletter) }}
+
+<input class="btn" type="submit" value="Ajouter"/>
+
+{{ form_end(formClientAdd) }}
 {% endblock %}
 </main>
 {% endblock %}

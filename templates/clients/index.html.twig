@@ -200,10 +200,18 @@
             </div>
         </th>
         <th class="box">
+        {% if client.carteFidelite %}
             <p class="corps">#{{ client.carteFidelite.id }}</p>
+        {% else %}
+            <p class="corps">-</p>
+        {% endif %} 
         </th>
         <th class="box">
+        {% if client.carteFidelite %}
             <p class="corps">{{ client.carteFidelite.soldePoints }}</p>
+        {% else %}
+            <p class="corps">-</p>
+        {% endif %}
         </th>
         
         <th class="box">

@@ -103,6 +103,7 @@ final class ClientController extends AbstractController
     public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
         $client = new Client();
+        $client->setDateCreation(new \DateTime());
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
 

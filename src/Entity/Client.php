@@ -28,7 +28,7 @@ class Client
     #[ORM\Column(length: 255)]
     private ?string $adresse = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $complementAdresse = null;
 
     #[ORM\Column(length: 255)]
@@ -129,7 +129,7 @@ class Client
         return $this->complementAdresse;
     }
 
-    public function setComplementAdresse(string $complementAdresse): static
+    public function setComplementAdresse(?string $complementAdresse): static
     {
         $this->complementAdresse = $complementAdresse;
 
@@ -213,7 +213,7 @@ class Client
         return $this->dateCreation;
     }
 
-    public function setDateCreation(\DateTime $dateCreation): static
+    public function setDateCreation(?\DateTime $dateCreation): static
     {
         $this->dateCreation = $dateCreation;
 
