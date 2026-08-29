@@ -62,7 +62,6 @@ class ClientRepository extends ServiceEntityRepository
         return $qb->getQuery();
     }
 
-
     // Access datas 
     public function findAllOrderedById()
     {

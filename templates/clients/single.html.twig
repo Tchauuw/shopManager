@@ -1,0 +1,35 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Profil de {{ client.prenom }} {{ client.nom }}{% endblock %}
+
+{% block nav %}
+        <nav class="menu">
+            <p class="name">Liste des clients</p>
+            {% for client in clients %}
+                <div class="item">
+                    <p class="initial">{{ client.prenom|slice(0,1)|upper }}{{ client.nom|slice(0,1)|upper }}</p>
+                    <div>
+                        <p class="identity">{{ client.prenom }} {{ client.nom }}</p>
+                        <p>#{{ client.id }}</p>
+                    </div>
+                    <p class="corps">{{ client.points }} pts</p>
+                </div>
+            {% endfor %}
+            <a href="">Voir tous les clients</a>
+        </nav>
+{% endblock %}
+
+{% block content %}
+<p class="initials">{{ client.prenom|slice(0,1)|upper }}{{ client.nom|slice(0,1)|upper }}</p>
+<p>{{ client.prenom }} {{ client.nom }}</p>
+<p>{{ client.getStatut }}</p>
+<p>Client depuis le {{ client.dateCreation|date('d/m/Y') }}</p>
+<p>{{ client.email }}</p>
+<p>{{ client.telephone }}</p>
+<p>Carte de fidélité</p>
+<p># {{ client.carteFidelite.id }}</p>
+<p>Créée le {{ client.carteFidelite.dateCreation|date('d/m/Y') }}</p>
+<p>Solde de points</p>
+<p>{{ client.carteFidelite.soldePoints }} pts</p>
+<p>Valeur : {{ client.pointValue }} €</p>
+{% endblock %}

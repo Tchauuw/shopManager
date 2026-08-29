@@ -99,6 +99,18 @@ final class ClientController extends AbstractController
         ]);
     }
 
+    #[Route('/admin/client/{id}', name:'admin_client')]
+    public function single(Client $client, ClientRepository $clientR): Response
+    {
+        $clients = $clientR->findAll();
+
+        return $this->render('clients/single.html.twig', 
+        [
+            'clients' => $clients,
+            'client' => $client,
+        ]);
+    }
+
     #[Route('/admin/clients/add', name:'admin_clients_add', methods: ['GET', 'POST'])]
     public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -117,6 +129,45 @@ final class ClientController extends AbstractController
             'client' => $client,
             'formClientAdd' => $form,
         ]);
+    }
+
+    #[Route('/admin/clients/{id}', name:'admin_clients_view', methods: ['GET'])]
+    public function view(Client $client): Response
+    {
+        return $this->render('clients/view.html.twig', [
+            'client' => $client,
+        ]);
+    }
+
+    #[Route('/admin/clients/update/{id}', name:'admin_clients_update', methods: ['GET', 'POST'])]
+    public function update(Request $request, Client $client, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(ClientType::class, $client);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('admin_clients_view', ['id' => $client->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('clients/update.html.twig', [
+            'client' => $client,
+            'formClientUpdate' => $form,
+        ]);
+    }
+
+    #[Route('/admin/clients/delete/{id}', name: 'admin_clients_delete', methods: ['POST'])]
+    public function delete(Request $request, Client $client, EntityManagerInterface $entityManager): Response
+    {
+        if (!$this->isCsrfTokenValid('delete'.$client->getId(), $request->request->get('_token'))) {
+            throw $this->createAccessDeniedException(('Token CSRF invalide'));
+        }
+
+        $entityManager->remove($client);
+        $entityManager->flush();
+
+    return $this->redirectToRoute('admin_clients', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/admin/clients/export', name:'admin_clients_export')]

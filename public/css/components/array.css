@@ -89,3 +89,9 @@
 .array .tag {
     white-space: nowrap;
 }
+
+.array .actions > .action {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}

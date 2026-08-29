@@ -1,0 +1,31 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Liste des clients{% endblock %}
+
+{% block content %}
+
+<main class="admin">
+
+{% block form %}
+{{ form_start(formClientUpdate, {'method': 'post'}) }}
+
+{{ form_row(formClientUpdate.nom) }}
+{{ form_row(formClientUpdate.prenom) }}
+{{ form_row(formClientUpdate.dateNaissance) }}
+{{ form_row(formClientUpdate.adresse) }}
+{{ form_row(formClientUpdate.complementAdresse) }}
+{{ form_row(formClientUpdate.codePostal) }}
+{{ form_row(formClientUpdate.ville) }}
+{{ form_row(formClientUpdate.pays) }}
+{{ form_row(formClientUpdate.email) }}
+{{ form_row(formClientUpdate.telephone) }}
+{{ form_row(formClientUpdate.newsletter) }}
+
+<input class="btn" type="submit" value="Ajouter"/>
+
+{{ form_end(formClientUpdate) }}
+{% endblock %}
+
+</main>
+
+{% endblock %}

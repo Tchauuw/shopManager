@@ -232,6 +232,22 @@ class Client
         return $this;
     }
 
+    public function points()
+    {
+        if($this->carteFidelite) {
+            return $this->carteFidelite->getSoldePoints();
+        }
+    }
+
+    public function pointValue()
+    {
+        if($this->points()) {
+            $points = $this->points();
+            $value = $points / 50;
+            return round($value, 2);
+        }
+    }
+
     public function nouveauOuNon(): int 
     {
         if(!$this->dateCreation) {

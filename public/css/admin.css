@@ -1,10 +1,10 @@
-body:has(> .clients){
+body:has(> .admin){
     display: flex;
     align-items: flex-start;
     gap: 24px;
 }
 
-body > .clients {
+body > .admin {
     margin-left: 20%;
     width: calc(80% - 24px);
 }
