@@ -100,14 +100,20 @@ final class ClientController extends AbstractController
     }
 
     #[Route('/admin/client/{id}', name:'admin_client')]
-    public function single(Client $client, ClientRepository $clientR): Response
+    public function single(Client $client, ClientRepository $clientR, VenteRepository $venteR): Response
     {
         $clients = $clientR->findAll();
+
+        // Ventes
+        $totalSales = $venteR->salesOfUser($client->getId());
+        $nbVentesClient = $venteR->numberOfSalesPerUser();
 
         return $this->render('clients/single.html.twig', 
         [
             'clients' => $clients,
             'client' => $client,
+            'totalSales' => $totalSales,
+            'nbVentesClient' => $nbVentesClient
         ]);
     }
 

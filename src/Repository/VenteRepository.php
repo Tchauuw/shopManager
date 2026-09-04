@@ -35,4 +35,29 @@ class VenteRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function salesOfUser(int $clientId): float
+    {
+        return $this->createQueryBuilder('v')
+            ->select('COALESCE(SUM(v.montantTotal), 0)')
+            ->where('v.client = :clientId')
+            ->setParameter('clientId', $clientId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function numberOfSalesPerUser(): int
+    {
+        return $this->createQueryBuilder('v')
+            ->leftJoin(
+                'v.client',
+                'c',
+                'WITH',
+                'v.client = c.id'
+                )
+            ->select('COUNT(v.client)')
+            ->where('v.client = c.id')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

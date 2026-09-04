@@ -32,4 +32,10 @@
 <p>Solde de points</p>
 <p>{{ client.carteFidelite.soldePoints }} pts</p>
 <p>Valeur : {{ client.pointValue }} €</p>
+<p>Total des achats :</p>
+<p>{{ totalSales|number_format(2, ',', ' ') }} €</p>
+<p>{{ nbVentesClient }} commandes</p>
+<p>Dernière commande</p>
+<p></p>
+<p></p>
 {% endblock %}
