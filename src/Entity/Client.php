@@ -52,11 +52,15 @@ class Client
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $dateCreation = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'client')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?CarteFidelite $carteFidelite = null;
 
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Vente::class)]
     private Collection $ventes;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $notes = null;
 
     /**
      * @return Collection<int, Vente>
@@ -280,4 +284,16 @@ class Client
 
     return 'a_developper';
 }
+
+    public function getNotes(): ?string
+    {
+        return $this->notes;
+    }
+
+    public function setNotes(?string $notes): static
+    {
+        $this->notes = $notes;
+
+        return $this;
+    }
 }

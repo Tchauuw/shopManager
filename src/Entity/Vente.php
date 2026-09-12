@@ -37,13 +37,16 @@ class Vente
     #[ORM\ManyToMany(targetEntity: ModePaiement::class, mappedBy: 'vente')]
     private Collection $modePaiements;
 
-    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'ventes')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Client $client = null;
 
     public function __construct()
     {
         $this->modePaiements = new ArrayCollection();
     }
+
+    
 
     public function getId(): ?int
     {

@@ -26,4 +26,13 @@ class MouvementFideliteRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function findLoyaltyMovesByClient(int $clientId)
+    {
+        return $this->createQueryBuilder('mf')
+            ->where('mf.id = :clientId')
+            ->setParameter('clientId', $clientId)
+            ->getQuery()
+            ->getResult();
+    }
 }

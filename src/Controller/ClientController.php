@@ -100,20 +100,35 @@ final class ClientController extends AbstractController
     }
 
     #[Route('/admin/client/{id}', name:'admin_client')]
-    public function single(Client $client, ClientRepository $clientR, VenteRepository $venteR): Response
+    public function single(
+        Client $client, 
+        ClientRepository $clientR, 
+        VenteRepository $venteR, 
+        MouvementFideliteRepository $mouvementR
+        ): Response
     {
         $clients = $clientR->findAll();
 
         // Ventes
         $totalSales = $venteR->salesOfUser($client->getId());
-        $nbVentesClient = $venteR->numberOfSalesPerUser();
+        $nbVentesClient = $venteR->numberOfSalesPerUser($client->getId());
+        $lastSaleDate = $venteR->lastSaleDate($client->getId());
+        $lastSaleAmount = $venteR->lastSaleAmount($client->getId());
+        $ventes = $venteR->findByClient($client->getId());
+
+        // Mouvements fidélités
+        $mouvements = $mouvementR->findLoyaltyMovesByClient($client->getId());
 
         return $this->render('clients/single.html.twig', 
         [
             'clients' => $clients,
             'client' => $client,
             'totalSales' => $totalSales,
-            'nbVentesClient' => $nbVentesClient
+            'nbVentesClient' => $nbVentesClient,
+            'lastSaleDate' => $lastSaleDate,
+            'lastSaleAmount' => $lastSaleAmount,
+            'ventes' => $ventes,
+            'mouvements' => $mouvements
         ]);
     }
 

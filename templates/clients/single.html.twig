@@ -36,6 +36,82 @@
 <p>{{ totalSales|number_format(2, ',', ' ') }} €</p>
 <p>{{ nbVentesClient }} commandes</p>
 <p>Dernière commande</p>
-<p></p>
-<p></p>
+<p>{{ lastSaleDate|date('d / m / Y') }}</p>
+<p>Montant : {{ lastSaleAmount|number_format(2) }} €</p>
+<br>
+<br>
+<br>
+<br>
+<p>Historique des ventes</p>
+{% for vente in ventes|slice(0, 6) %}
+    ----------------
+    <p>{{ vente.date|date('d / m / Y') }}</p>
+    <p># {{ vente.id }}</p>
+    <p>{{ vente.montantTotal|number_format(2) }} €</p>
+    <p>+{{ (vente.montantTotal / 10)|number_format(2) }} pts</p>
+{% endfor %}
+
+{% if ventes|length > 6 %}
+    Voir toutes les commandes
+{% endif %}
+<br>
+<br>
+<br>
+<br>
+<p>Mouvement de points</p>
+{% for mouvement in mouvements|slice(0,5) %}
+    ----------------
+    <p>
+    {% if mouvement.points >= 0 %}
+        +
+        {% else %}
+        -
+    {% endif %}
+    </p>
+    <p>{{ mouvement.date|date('d/m/Y') }}</p>
+    <p>{{ mouvement.motif }}</p>
+    <p>
+    {% if mouvement.points >= 0 %}
+        +
+        {% else %}
+        -
+    {% endif %}
+    {{ mouvement.points }} pts</p>
+{% endfor %}
+<br>
+<br>
+<br>
+<br>
+<p>Informations client</p>
+<br>
+<br>
+<p>Nom : {{ client.nom }}</p>
+<br>
+<p>Prénom : {{ client.prenom }}</p>
+<br>
+<p>Date de naissance : {{ client.dateNaissance|date('d/m/Y') }}</p>
+<br>
+<p>Téléphone : {{ client.telephone }}</p>
+<br>
+<p>Email : {{ client.email }}</p>
+<br>
+<p>Adresse : {{ client.adresse }}</p>
+<br>
+<p>Complément d'adresse : {{ client.complementAdresse }}</p>
+<br>
+<p>Ville : {{ client.ville }} ({{ client.codePostal }})</p>
+<br>
+<p>Pays : {{ client.pays }}</p>
+<br>
+<p>Newsletter : {% if client.newsletter == 1 %}Oui{% else %}Non{% endif %}</p>
+<br>
+<p>Date de création : {{ client.dateCreation|date('d/m/Y') }}</p>
+<br>
+<br>
+<br>
+<br>
+<p>Notes</p>
+<br>
+<br>
+<p>{% if client.notes is not empty %}{{ client.notes }}{% else %}Aucune note attribuée à ce client pour le moment.{% endif %}</p>
 {% endblock %}

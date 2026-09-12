@@ -22,6 +22,9 @@ class CarteFidelite
     #[ORM\Column]
     private ?int $soldePoints = null;
 
+    #[ORM\OneToOne(mappedBy: 'carteFidelite')]
+    private ?Client $client = null;
+
     /**
      * @var Collection<int, MouvementFidelite>
      */
@@ -59,6 +62,18 @@ class CarteFidelite
     {
         $this->soldePoints = $soldePoints;
 
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+    
+    public function setClient(?Client $client): static
+    {
+        $this->client = $client;
+    
         return $this;
     }
 

@@ -46,18 +46,46 @@ class VenteRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
-    public function numberOfSalesPerUser(): int
+    public function numberOfSalesPerUser(int $clientId): int
     {
         return $this->createQueryBuilder('v')
-            ->leftJoin(
-                'v.client',
-                'c',
-                'WITH',
-                'v.client = c.id'
-                )
             ->select('COUNT(v.client)')
-            ->where('v.client = c.id')
+            ->where('v.client = :clientId')
+            ->setParameter('clientId', $clientId)
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    public function lastSaleDate(int $clientId)
+    {
+        return $this->createQueryBuilder('v')
+            ->select('v.date')
+            ->where('v.client = :clientId')
+            ->setParameter('clientId', $clientId)
+            ->orderBy('v.date', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function lastSaleAmount(int $clientId): float
+    {
+        return $this->createQueryBuilder('v')
+            ->select('v.montantTotal')
+            ->where('v.client = :clientId')
+            ->setParameter('clientId', $clientId)
+            ->orderBy('v.date', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function findByClient(int$clientId)
+    {
+        return $this->createQueryBuilder('v')
+            ->where('v.client = :clientId')
+            ->setParameter('clientId', $clientId)
+            ->getQuery()
+            ->getResult();
     }
 }
