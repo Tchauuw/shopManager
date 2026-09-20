@@ -144,6 +144,7 @@
     {% set allBuys = row.allBuys %}
     <tr class="line">
         <th class="box identity">
+        <a href="{{ path('admin_client', {id: client.id}) }}">test</a>
             <p class="initial initial--{{ client.nom|slice(0,1)|lower }}">{{ client.nom|slice(0,1)|upper }}{{ client.prenom|slice(0,1)|upper }}</p>
             <div class="part">
                 <p class="corps">{{ client.prenom }} {{ client.nom }}</p>

@@ -62,6 +62,30 @@ class ClientRepository extends ServiceEntityRepository
         return $qb->getQuery();
     }
 
+    // Rechercher d'un client en particulier
+    public function findClient(
+        ?string $searchClient = null
+    ): Query
+    {
+    $qc = $this->createQueryBuilder('c')
+        ->groupBy('c.id')
+        ->orderBy('c.name', 'DESC');
+    
+    if($searchClient) {
+        $qc
+            ->andWhere(
+                $qc->expr()->orX(
+                    'c.nom LIKE :searchClient',
+                    'c.prenom LIKE :searchClient',
+                    'c.email LIKE :searchClient',
+                )
+            )
+            ->setParameter('searchClient', '%' . $searchClient . '%');
+    }
+
+    return $qc->getQuery();
+    }
+
     // Access datas 
     public function findAllOrderedById()
     {

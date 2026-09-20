@@ -51,7 +51,7 @@ final class ClientController extends AbstractController
             $queryClient,
             $request->query->getInt('page', 1),
             $limit
-        );    
+        );
 
         $queryVente = $entityManager
             ->getRepository(Vente::class)
@@ -104,10 +104,20 @@ final class ClientController extends AbstractController
         Client $client, 
         ClientRepository $clientR, 
         VenteRepository $venteR, 
-        MouvementFideliteRepository $mouvementR
+        MouvementFideliteRepository $mouvementR,
+        Request $request
         ): Response
     {
         $clients = $clientR->findAll();
+        $searchClient = $request->query->get('searchClient');
+
+        // Clients
+        // Barre de recherche
+        $querySearchClient = $clientR->findClient(
+            $searchClient
+        );
+
+        $querySearchClient = $clientR->findClient();
 
         // Ventes
         $totalSales = $venteR->salesOfUser($client->getId());

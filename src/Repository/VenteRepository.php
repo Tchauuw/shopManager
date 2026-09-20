@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Vente;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @extends ServiceEntityRepository<Vente>
@@ -16,7 +18,7 @@ class VenteRepository extends ServiceEntityRepository
         parent::__construct($registry, Vente::class);
     }
 
-    public function totalSales(): float
+    public function totalSales(): ?float
     {
         return $this->createQueryBuilder('v')
             ->select('SUM(v.montantTotal)')
@@ -24,7 +26,7 @@ class VenteRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
-    public function salesThisMonth(): float
+    public function salesThisMonth(): ?float
     {
         $date = new \DateTimeImmutable('-30 days');
 
@@ -36,7 +38,7 @@ class VenteRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
-    public function salesOfUser(int $clientId): float
+    public function salesOfUser(int $clientId): ?float
     {
         return $this->createQueryBuilder('v')
             ->select('COALESCE(SUM(v.montantTotal), 0)')
@@ -46,7 +48,7 @@ class VenteRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
-    public function numberOfSalesPerUser(int $clientId): int
+    public function numberOfSalesPerUser(int $clientId): ?int
     {
         return $this->createQueryBuilder('v')
             ->select('COUNT(v.client)')
@@ -56,7 +58,7 @@ class VenteRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
-    public function lastSaleDate(int $clientId)
+    public function lastSaleDate(int $clientId): ?\DateTimeInterface
     {
         return $this->createQueryBuilder('v')
             ->select('v.date')
@@ -65,10 +67,10 @@ class VenteRepository extends ServiceEntityRepository
             ->orderBy('v.date', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getOneOrNullResult();
     }
 
-    public function lastSaleAmount(int $clientId): float
+    public function lastSaleAmount(int $clientId): ?float
     {
         return $this->createQueryBuilder('v')
             ->select('v.montantTotal')
@@ -77,7 +79,7 @@ class VenteRepository extends ServiceEntityRepository
             ->orderBy('v.date', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getOneOrNullResult();
     }
 
     public function findByClient(int$clientId)

@@ -2,18 +2,48 @@
 
 {% block title %}Profil de {{ client.prenom }} {{ client.nom }}{% endblock %}
 
+{% block top %}
+    <div class="informations">
+        <img src="" alt="" />
+        <h2 class="title">Clients</h2>
+        <p class="corps">Tableau de bord client</p>
+    </div>
+    <div class="btns">
+        {# <a href="{{ path('admin_commande_add') }}" class="btn">Nouvelle commande</a> #}
+        <a href="{{ path('admin_clients_update', {id: client.id}) }}" class="btn">Modifier le client</a>
+    </div>
+{% endblock %}
+
 {% block nav %}
         <nav class="menu">
-            <p class="name">Liste des clients</p>
+            <form method="get" class="filters">
+                <p class="name">Liste des clients</p>
+                <input 
+                    type="search"
+                    name="searchClient"
+                    value="{{ app.request.query.get('searchClient') }}"
+                    placeholder="Rechercher un client ..."
+                    class="filter filter--text"
+                >
+
+                <button type="submit">
+                    Rechercher
+                </button>
+
+                <a href="">
+                    Réinitialiser
+                </a>
+            </form>
+
             {% for client in clients %}
-                <div class="item">
+                <a href="{{ path('admin_client', {id: client.id}) }}" class="item">
                     <p class="initial">{{ client.prenom|slice(0,1)|upper }}{{ client.nom|slice(0,1)|upper }}</p>
                     <div>
                         <p class="identity">{{ client.prenom }} {{ client.nom }}</p>
                         <p>#{{ client.id }}</p>
                     </div>
                     <p class="corps">{{ client.points }} pts</p>
-                </div>
+                </a>
             {% endfor %}
             <a href="">Voir tous les clients</a>
         </nav>
